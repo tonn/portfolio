@@ -1,0 +1,12 @@
+{
+  "Title": "Custom CRM workflow designer",
+  "Technologies": ["html", "scss", "typescript", "angular"],
+  "Description": "My client wanted fully-custom designed graph based constructor for CRM-workflow. System frontend was built on Angular 6.",
+  "Images": [{
+    "Filename": "2019-01-30 Сценарий.png"
+  }, {
+    "Filename": "2018-09-03 Список сценариев.png"
+  }, {
+    "Filename": "2019-01-30 Редактор задачи.png"
+  }]
+}
