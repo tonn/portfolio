@@ -1,0 +1,15 @@
+.LabeledRow {
+  display: flex;
+  flex-direction: row;
+  margin: 6px 0;
+  overflow: hidden; }
+  .LabeledRow__Label {
+    flex: 0 0 10vw;
+    font-size: 18px;
+    font-weight: 500;
+    color: #999999;
+    border-right: 1px solid #AAAAAA; }
+  .LabeledRow__Content {
+    width: calc(100% - 10vw);
+    position: relative;
+    padding: 12px; }

@@ -1,0 +1,18 @@
+$separator_color: #555555;
+
+.App {
+  margin: 3vh 10vw;
+
+  &__ {
+    &ProjectPreviewImage {
+      height: 100%;
+      width: auto;
+
+      transition: filter .5s;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+  }
+}

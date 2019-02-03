@@ -1,0 +1,29 @@
+@import 'colors';
+
+$LabelRow_labelWidth: 10vw;
+
+.LabeledRow {
+  display: flex;
+  flex-direction: row;
+
+  margin: $spacing / 2 0;
+  overflow: hidden;
+
+  &__ {
+    &Label {
+      flex: 0 0 $LabelRow_labelWidth;
+
+      font-size: 18px;
+      font-weight: $semibold;
+      color: $color2;
+      border-right: 1px solid $color1;
+    }
+
+    &Content {
+      width: calc(100% - #{$LabelRow_labelWidth});
+
+      position: relative;
+      padding: $spacing;
+    }
+  }
+}
