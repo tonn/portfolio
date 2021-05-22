@@ -1,8 +1,11 @@
 .App {
   margin: 3vh 10vw; }
+  .App__Introduction {
+    white-space: pre-line; }
   .App__ProjectPreviewImage {
     height: 100%;
     width: auto;
-    transition: filter .5s; }
+    transition: filter .5s;
+    cursor: pointer; }
     .App__ProjectPreviewImage:hover {
       filter: brightness(0.8); }

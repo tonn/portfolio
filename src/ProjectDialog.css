@@ -1,0 +1,8 @@
+.ProjectDialog__DialogTitle > h2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; }
+
+.ProjectDialog__Content {
+  padding: 12px; }

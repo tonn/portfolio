@@ -4,10 +4,10 @@ import * as React from 'react';
 
 import './LabeledRow.css';
 
-export default class LabeledRow extends React.Component<{ Label: string}> {
+export default class LabeledRow extends React.Component<{ Label: string, className?: string }> {
   render() {
     return (
-      <div className='LabeledRow'>
+      <div className={`LabeledRow ${this.props.className}`}>
         <div className='LabeledRow__Label'>{this.props.Label}</div>
         <div className='LabeledRow__Content'>{this.props.children}</div>
       </div>

@@ -4,11 +4,16 @@ $separator_color: #555555;
   margin: 3vh 10vw;
 
   &__ {
+    &Introduction {
+      white-space: pre-line;
+    }
+
     &ProjectPreviewImage {
       height: 100%;
       width: auto;
 
       transition: filter .5s;
+      cursor: pointer;
 
       &:hover {
         filter: brightness(0.8);

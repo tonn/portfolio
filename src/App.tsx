@@ -2,21 +2,24 @@
 
 import axios from 'axios';
 import * as React from 'react';
-import { GridList, GridListTile } from '@material-ui/core';
+import { GridList, GridListTile, GridListTileBar } from '@material-ui/core';
 
 import './App.css';
 
 import { IMainData, IProjectData } from './data';
 import LabeledRow from './LabeledRow';
+import ProjectDialog from './ProjectDialog';
 
 export default class App extends React.Component<any, {
   MainData?: IMainData,
-  Projects?: IProjectData[]
+  Projects?: IProjectData[],
+  CurrentProject?: IProjectData,
+  OpenProjectDialog: boolean
 }> {
   constructor(props: Readonly<{}>) {
     super(props);
 
-    this.state = {};
+    this.state = { OpenProjectDialog: false };
   }
 
   async componentDidMount() {
@@ -31,6 +34,8 @@ export default class App extends React.Component<any, {
     }));
 
     this.setState({ Projects: projects });
+
+    console.dir(projects);
   }
 
   private renderProject(project: IProjectData) {
@@ -51,22 +56,32 @@ export default class App extends React.Component<any, {
     return '';
   }
 
+  private onProjectClick(project: IProjectData) {
+    this.setState({ CurrentProject: project, OpenProjectDialog: true });
+  }
+
   render() {
     return (
       <div className='App'>
-        <LabeledRow Label='Introduction'>
-          {this.state.MainData && this.state.MainData.Introduction}
+        <LabeledRow className='App__Introduction' Label='Introduction'>
+          <span dangerouslySetInnerHTML={{ __html: (this.state.MainData && this.state.MainData.Introduction) || '' }} />
         </LabeledRow>
 
         <LabeledRow Label='Projects'>
-          <GridList cellHeight={320} cols={3}>
+          <GridList cellHeight={320} cols={3} spacing={12}>
             {this.state.Projects && this.state.Projects.map(project => (
               <GridListTile key={this.getProjectFirstImage(project)}>
-                <img className='App__ProjectPreviewImage' src={this.getProjectFirstImage(project)} />
+                <div className='App__ProjectPreviewImage'>
+                  <img src={this.getProjectFirstImage(project)} onClick={() => this.onProjectClick(project)} />
+                </div>
+
+                <GridListTileBar title={project.Title} subtitle={project.Technologies.join(', ')} />
               </GridListTile>
             ))}
           </GridList>
         </LabeledRow>
+
+        { this.state.CurrentProject ? <ProjectDialog Project={this.state.CurrentProject} open={this.state.OpenProjectDialog} Closing={() => this.setState({ OpenProjectDialog: false })}/> : '' }
       </div>
     );
   }
