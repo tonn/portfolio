@@ -45,5 +45,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "react-git-info": "^2.0.0"
+  }
 }

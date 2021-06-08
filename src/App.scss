@@ -1,3 +1,5 @@
+@import 'colors';
+
 $separator_color: #555555;
 
 .App {
@@ -43,6 +45,14 @@ $separator_color: #555555;
       position: fixed;
       right: 2vw;
       top: 2vw;
+    }
+
+    &Footer {
+      color: $color2;
+      border-top: 1px solid $color1;
+      padding-top: 1vh;
+      margin-top: 1vh;
+      text-align: center;
     }
   }
 }

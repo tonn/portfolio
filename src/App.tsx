@@ -11,7 +11,7 @@ import { BEM } from './helpers/BEM';
 import { If } from './helpers/If';
 import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
-import { Map } from './helpers/Map';
+import GitInfo from 'react-git-info/macro';
 
 interface ILanguageModel {
   Language: Language,
@@ -62,6 +62,7 @@ export default class App extends React.Component<any, {
 
   render() {
     const { CV, Language } = this.state;
+    const { commit } = GitInfo();
 
     return (
       <div className={block()}>
@@ -83,6 +84,10 @@ export default class App extends React.Component<any, {
               )}
             </GridList>
           </LabeledRow>
+
+          <div className={elem('Footer')}>
+            Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
+          </div>
         </div>
 
         <If condition={!!this.state.CurrentProject}>
