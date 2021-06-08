@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, GridList, GridListTile, GridListTileBar, Icon, SvgIcon } from '@material-ui/core';
+import { Button, ButtonGroup, GridList, GridListTile, GridListTileBar, Paper } from '@material-ui/core';
 
 import './App.scss';
 
@@ -12,6 +12,7 @@ import { If } from './helpers/If';
 import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
 import GitInfo from 'react-git-info/macro';
+import _ from 'lodash';
 
 interface ILanguageModel {
   Language: Language,
@@ -35,9 +36,7 @@ export default class App extends React.Component<any, {
   constructor(props: Readonly<{}>) {
     super(props);
 
-    this.state = { OpenProjectDialog: false };
-
-    
+    this.state = { OpenProjectDialog: false };    
   }
 
   componentDidMount() {
@@ -73,13 +72,11 @@ export default class App extends React.Component<any, {
 
           <LabeledRow Label='Projects'>
             <GridList cellHeight={320} cols={3} spacing={12}>
-              {CV?.Projects.map(project => 
-                <GridListTile key={this.getProjectFirstImage(project)}>
-                  <div className={elem('ProjectPreviewImage')}>
-                    <img src={this.getProjectFirstImage(project)} onClick={() => this.onProjectClick(project)} alt='' />
-                  </div>
+              {_.orderBy(CV?.Projects, p => p.Start).map(project => 
+                <GridListTile key={project.Title} onClick={() => this.onProjectClick(project)}>
+                  <img className={elem('ProjectPreviewImage')} src={this.getProjectFirstImage(project)}  alt='' />
 
-                  <GridListTileBar title={project.Title} subtitle={project.Technologies.join(', ')} />
+                  <GridListTileBar title={project.Title}  subtitle={project.Technologies.join(', ')} />
                 </GridListTile>
               )}
             </GridList>
