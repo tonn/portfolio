@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import './LabeledRow.css';
+import './LabeledRow.scss';
 
 export default class LabeledRow extends React.Component<{ Label: string, className?: string }> {
   render() {

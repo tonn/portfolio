@@ -1,13 +1,11 @@
-/* tslint:disable:max-line-length radix max-classes-per-file member-ordering no-console member-access ordered-imports */
-
 import * as React from 'react';
 
-import './ProjectDialog.css';
+import './ProjectDialog.scss';
 import { Dialog, DialogTitle, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { IProjectData } from './data';
+import { IProject } from './data';
 
-export default class ProjectDialog extends React.Component<{ Project: IProjectData, className?: string, open: boolean, Closing: () => any }> {
+export default class ProjectDialog extends React.Component<{ Project: IProject, className?: string, open: boolean, Closing: () => any }> {
   render() {
     const { Project, open, Closing } = this.props;
 
