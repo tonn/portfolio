@@ -15,7 +15,6 @@ export function BEM(blockName: string) {
   }
 }
 
-
 export function cn(...classes: (string | false | undefined | null)[]): string {
   return classes.filter(c => !!c).join(' ');
 }

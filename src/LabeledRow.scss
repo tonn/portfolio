@@ -3,6 +3,7 @@
 $LabelRow_labelWidth: 10vw;
 
 .LabeledRow {
+  position: relative;
   display: flex;
   flex-direction: row;
 
@@ -11,8 +12,9 @@ $LabelRow_labelWidth: 10vw;
 
   &__ {
     &Label {
-      flex: 0 0 $LabelRow_labelWidth;
+      flex: 0 0 auto;
 
+      width: $LabelRow_labelWidth;
       font-size: 18px;
       font-weight: $semibold;
       color: $color2;
@@ -20,10 +22,11 @@ $LabelRow_labelWidth: 10vw;
     }
 
     &Content {
-      width: calc(100% - #{$LabelRow_labelWidth});
+      flex: 1 1 auto;
 
       position: relative;
       padding: $spacing;
+      overflow: hidden;
     }
   }
 }

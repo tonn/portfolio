@@ -1,16 +1,19 @@
-/* tslint:disable:max-line-length radix max-classes-per-file member-ordering no-console member-access ordered-imports */
-
-import * as React from 'react';
+import React from 'react';
+import nameof from 'ts-nameof.macro';
+import { BEM, cn } from './helpers/BEM';
 
 import './LabeledRow.scss';
 
-export default class LabeledRow extends React.Component<{ Label: string, className?: string }> {
+export class LabeledRow extends React.Component<{ Label: string, className?: string }> {
   render() {
     return (
-      <div className={`LabeledRow ${this.props.className}`}>
-        <div className='LabeledRow__Label'>{this.props.Label}</div>
-        <div className='LabeledRow__Content'>{this.props.children}</div>
+      <div className={cn(block(), this.props.className)}>
+        <div className={elem('Label')}>{this.props.Label}</div>
+        <div className={elem('Content')}>{this.props.children}</div>
       </div>
     );
   }
 }
+
+const { block, elem } = BEM(nameof(LabeledRow));
+
