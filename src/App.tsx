@@ -6,6 +6,10 @@ import './App.scss';
 import LabeledRow from './LabeledRow';
 import ProjectDialog from './ProjectDialog';
 import { IProject, CV } from './data';
+import nameof from 'ts-nameof.macro';
+import { BEM } from './helpers/BEM';
+import { Map } from './helpers/Map';
+import { If } from './helpers/If';
 
 export default class App extends React.Component<any, {
   CurrentProject?: IProject,
@@ -31,8 +35,8 @@ export default class App extends React.Component<any, {
 
   render() {
     return (
-      <div className='App'>
-        <LabeledRow className='App__Introduction' Label='Introduction'>
+      <div className={block()}>
+        <LabeledRow className={elem('Introduction')} Label='Introduction'>
           <span dangerouslySetInnerHTML={{ __html: CV.Introduction }} />
         </LabeledRow>
 
@@ -40,7 +44,7 @@ export default class App extends React.Component<any, {
           <GridList cellHeight={320} cols={3} spacing={12}>
             {CV.Projects.map(project => 
               <GridListTile key={this.getProjectFirstImage(project)}>
-                <div className='App__ProjectPreviewImage'>
+                <div className={elem('ProjectPreviewImage')}>
                   <img src={this.getProjectFirstImage(project)} onClick={() => this.onProjectClick(project)} alt='' />
                 </div>
 
@@ -50,8 +54,12 @@ export default class App extends React.Component<any, {
           </GridList>
         </LabeledRow>
 
-        { this.state.CurrentProject ? <ProjectDialog Project={this.state.CurrentProject} open={this.state.OpenProjectDialog} Closing={() => this.setState({ OpenProjectDialog: false })}/> : '' }
+        <If condition={!!this.state.CurrentProject}>
+          <ProjectDialog Project={this.state.CurrentProject!} open={this.state.OpenProjectDialog} Closing={() => this.setState({ OpenProjectDialog: false })} />
+        </If>
       </div>
     );
   }
 }
+
+const { block, elem } = BEM(nameof(App));
