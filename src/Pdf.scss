@@ -1,0 +1,12 @@
+@import 'shared';
+
+.PdfDialog {
+    &__Content {
+        width: 70vw;
+        height: 90vh;
+    }
+
+    &__PdfView {
+        @include size(100%);
+    }
+}

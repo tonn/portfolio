@@ -1,18 +1,18 @@
+import { Button, ButtonGroup, GridList, GridListTile, GridListTileBar } from '@material-ui/core';
+import _ from 'lodash';
 import React from 'react';
-import { Button, ButtonGroup, GridList, GridListTile, GridListTileBar, Paper } from '@material-ui/core';
-
-import './App.scss';
-
-import { LabeledRow } from './LabeledRow';
-import ProjectDialog from './ProjectDialog';
-import { IProject, CVs, ICV, Language } from './data';
+import GitInfo from 'react-git-info/macro';
 import nameof from 'ts-nameof.macro';
-import { BEM } from './helpers/BEM';
-import { If } from './helpers/If';
+import './App.scss';
 import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
-import GitInfo from 'react-git-info/macro';
-import _ from 'lodash';
+import { CVs, ICV, IProject, Language } from './data';
+import { BEM } from './helpers/BEM';
+import { If } from './helpers/If';
+import { LabeledRow } from './LabeledRow';
+import { PdfDialog } from './Pdf';
+import ProjectDialog from './ProjectDialog';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
 interface ILanguageModel {
   Language: Language,
@@ -31,12 +31,13 @@ export default class App extends React.Component<any, {
   CV?: ICV,
   Language?: Language,
   CurrentProject?: IProject,
-  OpenProjectDialog: boolean
+  OpenProjectDialog: boolean,
+  OpenPdfDialog: boolean
 }> {
   constructor(props: Readonly<{}>) {
     super(props);
 
-    this.state = { OpenProjectDialog: false };    
+    this.state = { OpenProjectDialog: false, OpenPdfDialog: false };    
   }
 
   componentDidMount() {
@@ -91,12 +92,16 @@ export default class App extends React.Component<any, {
           <ProjectDialog Project={this.state.CurrentProject!} open={this.state.OpenProjectDialog} Closing={() => this.setState({ OpenProjectDialog: false })} />
         </If>
 
+        <PdfDialog open={this.state.OpenPdfDialog} closing={() => this.setState({ OpenPdfDialog: false })} />
+
         <ButtonGroup className={elem('Langs')} size='small' variant='contained'>
           { LanguageModels.map(langvm => 
               <Button key={langvm.Language} 
                       color={Language === langvm.Language ? 'primary' : 'default'} 
                       onClick={() => this.setLanguage(langvm.Language)}><langvm.Icon /></Button>
           )}
+
+          <Button onClick={() => this.setState({ OpenPdfDialog: true })}><PictureAsPdfIcon /></Button>
         </ButtonGroup>
       </div>
     );

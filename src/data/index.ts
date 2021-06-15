@@ -7,6 +7,7 @@ import { LeanCRMConstructorProject, LeanCRMConstructorProjectRu } from './projec
 import { LeanCRMMenu, LeanCRMMenuRu } from './projects/leancrm-menu';
 import { ReebokEventProject, ReebokEventProjectRu } from './projects/reebokEventSite';
 import { StreetQuestProject, StreetQuestProjectRu } from './projects/streetquest';
+import image1 from './cv_avatar_square.jpg';
 
 export type Language = 'ru' | 'en';
 
@@ -29,16 +30,19 @@ export interface IProject {
 
 export interface ICV {
   Language: Language,
+  Photo: string,
   Introduction: string,
   Projects: IProject[]
 }
 
 export const CVs: ICV[] = [{
   Language: 'en',
+  Photo: image1,
   Introduction: 'Hi! I\'m professional full-stack developer with 9 total years of work experience.\n\nMy main experience by technologies:\nC#/Entity Framework/WCF/WinForms/DevExpress: 6 years\nASP.net/WebAPI/Owin: 2 years\nHTML5/JS/CSS/SCSS/Angular 1: 4 years\nCordova/PhoneGap/Ionic/Android/iOS: 3 years\nTypeScript/Angular 2+/Ionic 2: 3 year\nAdditional experience in Nuget, NodeJS/NPM, Gulp, T4 template, XSLT, C++/Qt, python\n\nStrong in Git (usually I use git-flow).\n\nI have master degree in math and computer science (<a href="https://ssau.ru/english/">Samara University</a>).',
   Projects: [AvgustProject, ClearDotProject, DriveNotProject, IDLProject, ISSCargoTrafficProject, LeanCRMConstructorProject, LeanCRMMenu, ReebokEventProject, StreetQuestProject]
 }, {
   Language: 'ru',
+  Photo: image1,
   Introduction: 'Привет! Я - тыжпрограммист!',
   Projects: [AvgustProjectRu, ClearDotProjectRu, DriveNotProjectRu, IDLProjectRu, ISSCargoTrafficProjectRu, LeanCRMConstructorProjectRu, LeanCRMMenuRu, ReebokEventProjectRu, StreetQuestProjectRu]
-}]
+}];
