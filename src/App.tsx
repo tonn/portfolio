@@ -10,7 +10,7 @@ import { CVs, ICV, IProject, Language } from './data';
 import { BEM } from './helpers/BEM';
 import { If } from './helpers/If';
 import { LabeledRow } from './LabeledRow';
-import { PdfDialog } from './Pdf';
+import { DownloadPdfButton, LazyDownloadPDFButton, PdfDialog } from './Pdf';
 import ProjectDialog from './ProjectDialog';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
@@ -102,6 +102,8 @@ export default class App extends React.Component<any, {
           )}
 
           <Button onClick={() => this.setState({ OpenPdfDialog: true })}><PictureAsPdfIcon /></Button>
+          <LazyDownloadPDFButton />
+          {CV && <DownloadPdfButton cv={CV}>jsPDF</DownloadPdfButton>}
         </ButtonGroup>
       </div>
     );
