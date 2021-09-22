@@ -15,7 +15,7 @@ function addCSSFontFace(font: Font) {
   fs.appendFileSync(cssFilePath, 
 `@font-face {
   font-family: '${font.fontName}';
-  src: url('${font.targetFilePath}') format('${fontTargetFormat}');
+  src: url('${font.runtimeFilePath}') format('${fontTargetFormat}');
   font-weight: ${font.weight};
   font-style: ${font.style};
 }
@@ -33,7 +33,7 @@ function addSCSSMixin(font: Font) {
 }
 
 function addHTMLPreload(font: Font) {
-  fs.appendFileSync(htmlPreloadFilePath, `<link rel="prefetch" as="font" href="assets/fonts/${font.targetFilePath}" />\n`);
+  fs.appendFileSync(htmlPreloadFilePath, `<link rel="prefetch" as="font" href="${font.runtimeFilePath}" />\n`);
 }
 
 export function prepareFonts(fonts: Font[], metadataOutputFolderPath: string, scrOutputFolder: string) {

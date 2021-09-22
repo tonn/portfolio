@@ -81,7 +81,12 @@ async function OptimizeAssets$() {
 
             if (font) {
                 if (!font.skip) {
-                    prepareFonts([{ ...font, filePath: item, targetFilePath: newFilePath }], path.join(projectPath, 'public'), path.join(projectPath, 'src'));
+                    prepareFonts([{ 
+                        ...font, 
+                        filePath: item, 
+                        targetFilePath: newFilePath,
+                        runtimeFilePath: path.relative(path.join(projectPath, 'public'), newFilePath).replace(/\\/g, '\\\\')
+                    }], path.join(projectPath, 'public'), path.join(projectPath, 'src'));
                 }
             } else { 
                 font = { 
