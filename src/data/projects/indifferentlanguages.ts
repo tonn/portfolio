@@ -1,4 +1,5 @@
 import { IProject } from '..';
+import { Assets } from '../../assets.g';
 
 export const IDLProject: IProject = {
   Title: 'In Different Languages',
@@ -6,15 +7,15 @@ export const IDLProject: IProject = {
   Technologies: ['html', 'scss', 'typescript', 'angular', 'azure', 'mssql', 'c#', 'asp.net', 'entityframework'],
   Description: '',
   Images: [{
-    Filename: 'assets/indifferentlanguages/splash.png'
+    Filename: Assets.indifferentlanguages.i_a_splash
   }, {
-    Filename: 'assets/indifferentlanguages/unnamed.webp'
+    Filename: Assets.indifferentlanguages.i_a_unnamed
   }, {
-    Filename: 'assets/indifferentlanguages/unnamed (1).webp'
+    Filename: Assets.indifferentlanguages.i_a_unnamed_1
   }, {
-    Filename: 'assets/indifferentlanguages/unnamed (2).webp'
+    Filename: Assets.indifferentlanguages.i_a_unnamed_2
   }, {
-    Filename: 'assets/indifferentlanguages/unnamed (3).webp'
+    Filename: Assets.indifferentlanguages.i_a_unnamed_3
   }]
 }
 

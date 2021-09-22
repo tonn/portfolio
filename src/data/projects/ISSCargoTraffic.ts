@@ -1,4 +1,5 @@
 import { IProject } from '..';
+import { Assets } from '../../assets.g';
 
 export const ISSCargoTrafficProject: IProject = {
   Title: 'ISS Cargo Traffic',
@@ -7,8 +8,8 @@ export const ISSCargoTrafficProject: IProject = {
   Technologies: [],
   Description: '',
   Images: [{
-    Filename: 'assets/ISSCargoTraffic/image009.png'
-  }]}
+    Filename: Assets.ISSCargoTraffic.i_a_image009
+  }, ...Object.values(Assets.ISSCargoTraffic).map(i => ({ Filename: i }))]}
 
 export const ISSCargoTrafficProjectRu: IProject = {
   ...ISSCargoTrafficProject,

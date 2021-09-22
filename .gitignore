@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/public/AntonNovikovCV_*
+
+/buildScripts/prepareFonts/env
+
+/public/assets.g
+*.g.*

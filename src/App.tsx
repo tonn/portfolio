@@ -10,9 +10,10 @@ import { CVs, ICV, IProject, Language } from './data';
 import { BEM } from './helpers/BEM';
 import { If } from './helpers/If';
 import { LabeledRow } from './LabeledRow';
-import { DownloadPdfButton, LazyDownloadPDFButton, PdfDialog } from './Pdf';
+import { PdfDialog } from './Pdf';
 import ProjectDialog from './ProjectDialog';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import { DEV } from '.';
 
 interface ILanguageModel {
   Language: Language,
@@ -60,6 +61,10 @@ export default class App extends React.Component<any, {
     this.setState({ Language: lang, CV: CVs.find(cv => cv.Language === lang)});
   }
 
+  private downloadPdf() {
+    window.open(`AntonNovikovCV_${this.state.CV?.Language}.pdf`, 'blank');
+  }
+
   render() {
     const { CV, Language } = this.state;
     const { commit } = GitInfo();
@@ -92,7 +97,7 @@ export default class App extends React.Component<any, {
           <ProjectDialog Project={this.state.CurrentProject!} open={this.state.OpenProjectDialog} Closing={() => this.setState({ OpenProjectDialog: false })} />
         </If>
 
-        <PdfDialog open={this.state.OpenPdfDialog} closing={() => this.setState({ OpenPdfDialog: false })} />
+        { CV && <PdfDialog open={this.state.OpenPdfDialog} closing={() => this.setState({ OpenPdfDialog: false })} cv={CV} /> }
 
         <ButtonGroup className={elem('Langs')} size='small' variant='contained'>
           { LanguageModels.map(langvm => 
@@ -101,9 +106,10 @@ export default class App extends React.Component<any, {
                       onClick={() => this.setLanguage(langvm.Language)}><langvm.Icon /></Button>
           )}
 
-          <Button onClick={() => this.setState({ OpenPdfDialog: true })}><PictureAsPdfIcon /></Button>
-          <LazyDownloadPDFButton />
-          {CV && <DownloadPdfButton cv={CV}>jsPDF</DownloadPdfButton>}
+          <If condition={DEV}>
+            <Button onClick={() => this.setState({ OpenPdfDialog: true })}>View pdf</Button>
+          </If>
+          <Button onClick={() => this.downloadPdf()}><PictureAsPdfIcon /></Button>
         </ButtonGroup>
       </div>
     );

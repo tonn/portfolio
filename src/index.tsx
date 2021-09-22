@@ -4,6 +4,8 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+export const DEV = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
 ReactDOM.render(
   <App />,
   document.getElementById('root')
