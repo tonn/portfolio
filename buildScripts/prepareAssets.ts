@@ -37,6 +37,10 @@ async function OptimizeAssets$() {
     const assets: { filename: string, path: string, project: string }[] = [];
     const fonts: Font[] = fs.existsSync(fontsInfoFilePath) ? JSON.parse(fs.readFileSync(path.join(assetsSourcesFolder, 'fonts.json'), { encoding: 'utf8' })) : [];
 
+    console.dir(items);
+
+    fs.rmdirSync(assetsFolder, { recursive: true });
+
     await PromisePool.withConcurrency(12).for(items).process(async item => {
         const relativeFilePath = path.relative(assetsSourcesFolder, item);
         const targetFilePath = path.join(assetsFolder, relativeFilePath);
@@ -47,8 +51,9 @@ async function OptimizeAssets$() {
         const newFilename = normalizeName(filename);
         let newFilePath = path.join(targetFolderPath, newFilename);
 
-        fs.rmdirSync(targetFolderPath, { recursive: true });
         fs.mkdirSync(targetFolderPath, { recursive: true });
+
+        console.dir([filename, fileExt, ImagesExts.includes(fileExt)]);
 
         if (ImagesExts.includes(fileExt)) {
             newFilePath += Exts.png;
