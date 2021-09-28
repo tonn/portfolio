@@ -5,6 +5,7 @@ import { Dialog, DialogTitle, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { IProject } from './data';
 import { If } from './helpers/If';
+import ImageGallery from 'react-image-gallery';
 
 export default class ProjectDialog extends React.Component<{ Project: IProject, className?: string, open: boolean, Closing: () => any }> {
   render() {
@@ -31,6 +32,11 @@ export default class ProjectDialog extends React.Component<{ Project: IProject, 
           Technologies: {Project.Technologies.join(', ')}<br/>
           <br/>
           {Project.Description}
+
+          <ImageGallery items={Project.Images.map(i => ({
+              original: i.Filename
+            }))} infinite={false} showThumbnails={false} showFullscreenButton={true} useBrowserFullscreen={false} showPlayButton={false} showIndex
+          />
         </div>
       </Dialog>
     );
