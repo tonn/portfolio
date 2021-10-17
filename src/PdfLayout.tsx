@@ -51,7 +51,7 @@ const PdfProject: React.FC<{ Project: IProject }> = ({ Project }) => {
     </Pdf.View>
     <Pdf.Text>{Project.Start.toLocaleDateString()}-{Project.End?.toLocaleDateString() || 'in progress'}</Pdf.Text>
     <Pdf.Text>{Project.Description}</Pdf.Text>
-    <Pdf.Text>{Project.Technologies}</Pdf.Text>
+    <Pdf.Text>{Project.PrimaryTechs}</Pdf.Text>
     <Pdf.View style={styles.projectImages}>
       {Project.Images.slice(1).map((i, ii) => <Pdf.View key={ii}>
         <Pdf.Image src={i.Filename} style={styles.projectImage} />

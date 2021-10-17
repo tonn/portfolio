@@ -4,7 +4,8 @@ import { Assets } from '../../assets.g';
 export const AvgustProject: IProject = {
   Title: 'Avgust Crop Protection',
   Start: new Date(2016, 6),
-  Technologies: ['javascript', 'html', 'scss', 'cordova', 'angularjs'],
+  PrimaryTechs: ['javascript', 'html', 'scss', 'cordova', 'angularjs', 'ionic'],
+  SecondaryTechs: ['ios', 'android'],
   Description: '',
   Images: [{
     Filename: Assets.avgust.i_a_logo,

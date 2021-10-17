@@ -29,7 +29,7 @@ export default class ProjectDialog extends React.Component<{ Project: IProject, 
               In progress
             </If>
           </div>
-          Technologies: {Project.Technologies.join(', ')}<br/>
+          Technologies: {Project.PrimaryTechs.join(', ')}<br/>
           <br/>
           {Project.Description}
 

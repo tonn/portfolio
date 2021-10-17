@@ -5,7 +5,7 @@ export const ISSCargoTrafficProject: IProject = {
   Title: 'ISS Cargo Traffic',
   Start: new Date(2009, 8),
   End: new Date(2015, 0),
-  Technologies: [],
+  PrimaryTechs: ['c#', 'winforms', 'wcf', 'mssql', 'entityframework'],
   Description: '',
   Images: [{
     Filename: Assets.ISSCargoTraffic.i_a_image009

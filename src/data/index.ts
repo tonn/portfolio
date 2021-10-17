@@ -15,8 +15,11 @@ export interface IProject {
   Title: string,
   Start: Date,
   End?: Date,
-  Technologies: string[],
+  Position?: string,
+  PrimaryTechs: string[],
+  SecondaryTechs?: string[],
   Description: string,
+  Team?: string,
   Images: {
     Filename: string,
     Description?: string
@@ -36,12 +39,7 @@ export interface ICV {
   Photo: string,
   Introduction: string,
   Projects: IProject[],
-  Contacts?: {
-    Phone?: string,
-    Email?: string,
-    Skype?: string,
-    Telegram?: string
-  }
+  Contacts: { Link: string, Label: string, Text: string }[]
 }
 
 const enCV: ICV = {
@@ -50,8 +48,15 @@ const enCV: ICV = {
   Birthday: new Date('1988.05.18'),
   Language: 'en',
   Photo: Assets.general.i_a_cv_avatar_square,
-  Introduction: 'Hi! I\'m professional full-stack developer with 9 total years of work experience.\n\nMy main experience by technologies:\nC#/Entity Framework/WCF/WinForms/DevExpress: 6 years\nASP.net/WebAPI/Owin: 2 years\nHTML5/JS/CSS/SCSS/Angular 1: 4 years\nCordova/PhoneGap/Ionic/Android/iOS: 3 years\nTypeScript/Angular 2+/Ionic 2: 3 year\nAdditional experience in Nuget, NodeJS/NPM, Gulp, T4 template, XSLT, C++/Qt, python\n\nStrong in Git (usually I use git-flow).\n\nI have master degree in math and computer science (<a href="https://ssau.ru/english/">Samara University</a>).',
-  Projects: [AvgustProject, ClearDotProject, DriveNotProject, IDLProject, ISSCargoTrafficProject, LeanCRMConstructorProject, LeanCRMMenu, ReebokEventProject, StreetQuestProject]
+  Introduction: `Hi! My name is Anton Novikov. I'm professional full-stack developer with 9 total years of work experience.`,
+  Projects: [AvgustProject, ClearDotProject, DriveNotProject, IDLProject, ISSCargoTrafficProject, LeanCRMConstructorProject, LeanCRMMenu, ReebokEventProject, StreetQuestProject],
+  Contacts: [
+    { Label: 'Mail', Text: 'tonn.post@gmail.com', Link: 'mailto:tonn.post@gmail.com' },
+    { Label: 'Skype', Text: 'novikov_a_l', Link: 'skype:novikov_a_l' },
+    { Label: 'Telegram', Text: '@mr_tonn', Link: 'https://telegram.me/mr_tonn' },
+    { Label: 'Github', Text: 'https://github.com/tonn', Link: 'https://github.com/tonn' },
+    { Label: 'Bitbucket', Text: 'https://bitbucket.org/tonn', Link: 'https://bitbucket.org/tonn' }
+  ]
 }
 
 const ruCV: ICV = {

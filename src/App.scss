@@ -1,4 +1,119 @@
 @import 'colors';
+@import "node_modules/sass-google-fonts/src/GoogleFonts.scss";
+$font: 'Noto Sans';
+$fontMono: 'Noto Sans Mono';
+@include google-font($font);
+@include google-font($fontMono);
+
+$color: #000;
+
+.App1 {
+  font-family: $font;
+  width: 100%;
+  // margin-left: auto;
+  // margin-right: auto;
+  padding: 2.5vw 10vw;
+  // overflow: hidden;
+  color: $color;
+
+  @media (orientation: portrait) {
+    padding: 2.5vw;
+  }
+
+  &__Intro {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__Photo {
+    flex: 0 0 auto;
+    width: 10vw;
+    height: 10vw;
+    margin-left: 5vw;
+    transform: scaleX(-1);
+
+    @media (orientation: portrait) {
+      width: 20vw;
+      height: 20vw;
+    }
+  }
+
+  &__TechName {
+    font-family: $fontMono;
+    text-transform: uppercase;
+  }
+
+  &__TechYear {
+    font-family: $font;
+    color: gray;
+    font-size: .9em;
+  }
+
+  &__ProjectTitle {
+    font-size: 1.2em;
+    font-family: $fontMono;
+    font-weight: bold;
+  }
+
+  &__ProjectTechs {
+    font-family: $fontMono;
+    font-size: .8em;
+    text-transform: uppercase;
+  }
+
+  &__ProjectImage {
+    border: 1px solid lightgray;
+    height: 5vw;
+    &:not(:last-child) {
+      margin-right: 1vw;
+    }
+
+    @media (orientation: portrait) {
+      height: 8vw;
+    }
+  }
+
+  &__Separator {
+    $sideMargin: 0vw;
+    width: calc(100% - #{$sideMargin * 2});
+    height: 2px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='0' y='0' x2='100%25' y2='0' stroke='lightgray' stroke-width='2' stroke-dasharray='20%2c 10' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+    margin: 1vw $sideMargin 3vw $sideMargin;
+  }
+
+  &__Footer {
+    font-family: $fontMono;
+    color: $color2;
+    text-align: center;
+  }
+
+  $ContactCopyButtonClass: "#{&}__ContactCopyButton";
+
+  &__Contact {
+    margin-right: 1vw;
+
+    &:hover #{$ContactCopyButtonClass} {
+      opacity: 1;
+    }
+
+    > a {
+      color: $color !important;
+      font-weight: 500;
+    }
+
+    > * {
+      vertical-align: middle;
+    }
+  }
+
+  #{$ContactCopyButtonClass} {
+    display: inline;
+    opacity: 0;
+    cursor: pointer;
+    width: 14px;
+    transition: opacity .5s;
+  }
+}
 
 $separator_color: #555555;
 
@@ -56,6 +171,31 @@ $separator_color: #555555;
       margin-top: 1vh;
       text-align: center;
     }
+
+    $TechComma: &TechComma;
+
+    &Techs {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      font: monospace;
+
+      #{$TechComma}:last-child {
+        display: none;
+      }
+    }
+
+    &TechTag {
+      // padding: 5px;
+      // border: 1px solid lightgray;
+      // border-radius: 5px;
+    }
+
+    &TechYear {
+      color: lightgray;
+    }
+
+
   }
 }
 

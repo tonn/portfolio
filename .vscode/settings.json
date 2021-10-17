@@ -6,9 +6,11 @@
         "entityframework",
         "FFTM",
         "jpegtran",
+        "langvm",
         "leancrm",
         "mozjpeg",
         "mplusrounded",
+        "noprint",
         "Owin",
         "pyftsubset",
         "redaktor",
@@ -19,8 +21,11 @@
         "unicodes",
         "venv",
         "viewerjs",
+        "webdriverio",
         "webfonts",
         "zadachi",
         "zopfli"
-    ]
+    ],
+    "jestrunner.jestCommand": "npx react-scripts test",
+    "svg.preview.background": "custom"
 }
