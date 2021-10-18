@@ -14,6 +14,22 @@ import { If } from './helpers/If';
 import { Map } from './helpers/Map';
 import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 
+/**
+ * TODO:
+ * 1) Pictures fullscreen view (zoom, pan, mobile friendly)
+ * 2) Techs categories
+ * 3) Techs sort
+ * 4) Select techs to filter project (include techs in project summary)
+ * 5) Fill the data!
+ * 5) Add google stats. Or something like that.
+ * 5) Publish. Make redirect from my domain
+ * 6) Find editor
+ * 7) Make something with photo
+ * 8) Maybe keep project images with colors - now it looks boring
+ * 9) Find designer
+ * 10) Fix pdf layout (hide it before)
+ */
+
 interface ILanguageModel {
   Language: Language,
   Icon: React.FC
@@ -158,6 +174,10 @@ export default class App extends React.Component<any, {
       {_.orderBy(CV.Projects, p => p.Start, 'desc').map(project => 
         <>
           <p> <span className={elem('ProjectTitle')}>{project.Title}</span> </p>
+          <p className={elem('ProjectSummary')}>
+            <Dates Start={project.Start} End={project.End} />
+            <span className={elem('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</span>
+          </p>
           <p className={elem('ProjectDescription')}>{project.Description}</p>
           <p className={cn(elem('ProjectImages'), 'noprint')}>
             <Map items={project.Images}>

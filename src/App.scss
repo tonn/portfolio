@@ -72,17 +72,32 @@ $color: #000;
     font-weight: bold;
   }
 
-  &__ProjectTechs {
-    font-family: $fontMono;
+  &__ProjectSummary {
     font-size: .8em;
+
+    > *:not(:last-child) {
+      margin-right: 24px;
+    }
+  }
+
+  &__ProjectTechs {
+    font-family: $fontMono;    
     text-transform: uppercase;
   }
 
   &__ProjectImage {
     border: 1px solid lightgray;
     height: 5vw;
+    cursor: pointer;
+
     &:not(:last-child) {
       margin-right: 1vw;
+    }
+
+    transition: filter .5s;
+    filter: grayscale(1);
+    &:hover {
+      filter: grayscale(0);
     }
 
     @media (orientation: portrait) {
@@ -115,7 +130,8 @@ $color: #000;
 
     > a {
       color: $color !important;
-      font-weight: 500;
+      font-weight: 600;
+      text-decoration-color: gray;
     }
 
     > * {
