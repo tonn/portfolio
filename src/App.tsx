@@ -10,6 +10,7 @@ import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
 import { CVs, ICV, IProject, Language } from './data';
 import { BEM, cn } from './helpers/BEM';
+import { If } from './helpers/If';
 import { Map } from './helpers/Map';
 import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 
@@ -27,6 +28,13 @@ const LanguageModels: ILanguageModel[] = [{
 }]
 
 const Separator = () => <p className={elem('Separator')}></p>;
+
+const MonthYear = (date: Date) => `${date.getFullYear()}/${date.getMonth() + 1}`;
+
+const Dates: React.FC<{ Start: Date, End?: Date }> = ({Start, End}) => <span className={elem('Dates')}>
+{ End ? <>{MonthYear(Start)} - {MonthYear(End)}</> 
+      : <>In progress from {MonthYear(Start)}</>}  
+</span>;
 
 export default class App extends React.Component<any, {
   CV?: ICV,
@@ -146,9 +154,6 @@ export default class App extends React.Component<any, {
             </span>) }
       </p>
 
-      <h1>Career</h1>
-      <p>TODO</p>
-      
       <h1>Projects</h1>
       {_.orderBy(CV.Projects, p => p.Start, 'desc').map(project => 
         <>
@@ -164,6 +169,12 @@ export default class App extends React.Component<any, {
           <Separator />
         </>)}
 
+      <h1>Career</h1>
+      <Map items={_.orderBy(Object.values(CV.Career), i => i.Start, 'desc')}>
+        { item => <p>
+          <Dates Start={item.Start} End={item.End} /> {item.Label} <If condition={!!item.Link}><a href={item.Link}>{item.LinkLabel || 'Organization site'}</a></If>
+        </p> }
+      </Map>
 
       <p className={cn(elem('Footer'), 'noprint')}>
         Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
