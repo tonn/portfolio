@@ -1,4 +1,6 @@
-import { Button, ButtonGroup, GridList, GridListTile, GridListTileBar } from '@material-ui/core';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Interval, max } from 'date-fns';
 import _ from 'lodash';
 import React from 'react';
 import GitInfo from 'react-git-info/macro';
@@ -8,15 +10,8 @@ import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
 import { CVs, ICV, IProject, Language } from './data';
 import { BEM, cn } from './helpers/BEM';
-import { If } from './helpers/If';
-import { LabeledRow } from './LabeledRow';
-import { PdfDialog } from './Pdf';
-import ProjectDialog from './ProjectDialog';
-import { Print, PictureAsPdf, FileCopy } from '@material-ui/icons';
-import { DEV } from '.';
-import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
-import { Interval, max } from 'date-fns';
 import { Map } from './helpers/Map';
+import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 
 interface ILanguageModel {
   Language: Language,
@@ -111,8 +106,8 @@ export default class App extends React.Component<any, {
       return <div>Loading...</div>
     }
 
-    return (<div className={block1()}>
-      <div className={elem1('Intro')}>
+    return (<div className={block()}>
+      <div className={elem('Intro')}>
         <div>
           <h1>About Me</h1>
           {/* <p><span>{CV.FirstName} {CV.SecondName}</span></p> */}
@@ -120,23 +115,23 @@ export default class App extends React.Component<any, {
           <p dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></p>
 
           <Map items={CV.Contacts}>
-            {contact => <span className={elem1('Contact')}>
-              <span className={elem1('ContactLabel')}>{contact.Label}</span>:&nbsp;
+            {contact => <span className={elem('Contact')}>
+              { contact.Label && <><span className={elem('ContactLabel')}>{contact.Label}</span>:&nbsp;</> }
               <a href={contact.Link} target='blank'>{contact.Text}</a>&nbsp;
-              <FileCopy className={cn(elem1('ContactCopyButton'), 'noprint')} onClick={() => navigator.clipboard.writeText(contact.Text)} />
+              <FontAwesomeIcon icon={faCopy} className={cn(elem('ContactCopyButton'), 'noprint')} onClick={() => navigator.clipboard.writeText(contact.Text)} />
             </span>}
           </Map>
         </div>
-        <img className={elem1('Photo')} src={CV.Photo} alt='' />
+        <img className={elem('Photo')} src={CV.Photo} alt='' />
       </div>
       
       <h1>Techs</h1>
       <p>
         { Techs.map((tech, index) => 
-            <span key={tech.name} className={elem1('TechTag')}>
-              <span className={elem1('TechName')}>{tech.name}</span>
-              <span className={elem1('TechYear')}>&nbsp;{Math.round(tech.experienceYears * 10) / 10}&nbsp;years</span>
-              {(index === Techs.length - 1) || <span className={elem1('TechComma')}>, </span>}
+            <span key={tech.name} className={elem('TechTag')}>
+              <span className={elem('TechName')}>{tech.name}</span>
+              <span className={elem('TechYear')}>&nbsp;{Math.round(tech.experienceYears * 10) / 10}&nbsp;years</span>
+              {(index === Techs.length - 1) || <span className={elem('TechComma')}>, </span>}
             </span>) }
       </p>
 
@@ -146,10 +141,9 @@ export default class App extends React.Component<any, {
       <h1>Projects</h1>
       {_.orderBy(CV.Projects, p => p.Start, 'desc').map(project => 
         <>
-          <p> <span className={elem1('ProjectTitle')}>{project.Title}</span> </p>
-          <p className={elem1('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</p>
-          <p className={elem1('ProjectDescription')}>{project.Description}</p>
-          <p className={cn(elem1('ProjectImages'), 'noprint')}>
+          <p> <span className={elem('ProjectTitle')}>{project.Title}</span> </p>
+          <p className={elem('ProjectDescription')}>{project.Description}</p>
+          <p className={cn(elem('ProjectImages'), 'noprint')}>
             <Map items={project.Images}>
               { (item) => <>
                 <img className={elem('ProjectImage')} src={item.Thumb} alt='' />
@@ -159,7 +153,6 @@ export default class App extends React.Component<any, {
           <Separator />
         </>)}
 
-      <p className={elem1('Footer')}>Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}</p>
 
       <ButtonGroup className={cn(elem('Langs'), 'noprint')} size='small' variant='contained'>
         { LanguageModels.map(langvm => 
@@ -171,64 +164,12 @@ export default class App extends React.Component<any, {
         <Button onClick={() => this.downloadPdf()}><PictureAsPdf /></Button>
         <Button onClick={() => window.print()}><Print /></Button>
       </ButtonGroup>
+      <p className={cn(elem('Footer'), 'noprint')}>
+        Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
+        <div>Icons made by <a href="" title="feen">feen</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+      </p>
     </div>);
-
-    /*
-    return (
-      <div className={block()}>
-        <div className={elem('Scroll')}>
-          <LabeledRow className={elem('Introduction')} Label='Introduction'>
-            <span dangerouslySetInnerHTML={{ __html: CV?.Introduction || '' }} />
-          </LabeledRow>
-
-          <LabeledRow contentClass={elem('Techs')} Label='Technologies'>
-            { Techs.map(tech => 
-              <div className={elem('TechTag')} key={tech.name}>
-                {tech.name} <span className={elem('TechYear')}>{Math.round(tech.experienceYears)} years</span><span className={elem('TechComma')}>,&nbsp;</span>
-              </div>) }
-          </LabeledRow>
-
-          <LabeledRow Label='Projects'>
-            <GridList cellHeight={320} cols={3} spacing={12}>
-              {_.orderBy(CV?.Projects, p => p.Start).map(project => 
-                <GridListTile key={project.Title} onClick={() => this.onProjectClick(project)}>
-                  <img className={elem('ProjectPreviewImage')} src={this.getProjectFirstImage(project)}  alt='' />
-
-                  <GridListTileBar title={project.Title}  subtitle={project.Technologies.join(', ')} />
-                </GridListTile>
-              )}
-            </GridList>
-          </LabeledRow>
-
-          <div className={elem('Footer')}>
-            Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
-          </div>
-        </div>
-
-        <If condition={!!this.state.CurrentProject}>
-          <ProjectDialog Project={this.state.CurrentProject!} open={this.state.OpenProjectDialog} Closing={() => this.setState({ OpenProjectDialog: false })} />
-        </If>
-
-        { CV && <PdfDialog open={this.state.OpenPdfDialog} closing={() => this.setState({ OpenPdfDialog: false })} cv={CV} /> }
-
-        <ButtonGroup className={elem('Langs')} size='small' variant='contained'>
-          { LanguageModels.map(langvm => 
-              <Button key={langvm.Language} 
-                      color={Language === langvm.Language ? 'primary' : 'default'} 
-                      onClick={() => this.setLanguage(langvm.Language)}><langvm.Icon /></Button>
-          )}
-
-          <If condition={DEV}>
-            <Button onClick={() => this.setState({ OpenPdfDialog: true })}>View pdf</Button>
-          </If>
-          <Button onClick={() => this.downloadPdf()}><PictureAsPdfIcon /></Button>
-        </ButtonGroup>
-      </div>
-    );
-    */
   }
 }
 
 const { block, elem } = BEM(nameof(App));
-
-const { block: block1, elem: elem1 } = BEM(nameof(App) + 1);
