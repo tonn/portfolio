@@ -1,7 +1,7 @@
 import glob from 'glob';
 import fs from 'fs';
 import path from 'path';
-// import imageminMozjpeg from 'imagemin-mozjpeg';
+import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminPngquant from 'imagemin-pngquant';
 // import imageminJpegtran from 'imagemin-jpegtran';
 import imagemin from 'imagemin';
@@ -34,7 +34,7 @@ const ImagesExts = [Exts.jpg1, Exts.jpg2, Exts.png, Exts.webp];
 // Оптимизируем все картинки
 async function OptimizeAssets$() {
     const items = glob.sync(`${assetsSourcesFolder}/**/*`).filter(f => fs.lstatSync(f).isFile());
-    const assets: { filename: string, path: string, project: string }[] = [];
+    const assets: { filename: string, thumbFilename: string, path: string, thumbPath: string, project: string }[] = [];
     const fonts: Font[] = fs.existsSync(fontsInfoFilePath) ? JSON.parse(fs.readFileSync(path.join(assetsSourcesFolder, 'fonts.json'), { encoding: 'utf8' })) : [];
 
     console.dir(items);
@@ -56,22 +56,27 @@ async function OptimizeAssets$() {
         console.dir([filename, fileExt, ImagesExts.includes(fileExt)]);
 
         if (ImagesExts.includes(fileExt)) {
+            let thumbFilePath = newFilePath + '.thumb.jpg';
             newFilePath += Exts.png;
 
             if (fileExt === Exts.webp) {
                 await webp.dwebp(item, newFilePath, '-o');
-            } else if ([Exts.jpg1, Exts.jpg2].includes(fileExt)) {
+            } else if ([Exts.jpg1, Exts.jpg2, Exts.png].includes(fileExt)) {
                 const jimpImage = await Jimp.read(item);
-                await jimpImage.writeAsync(newFilePath)
-            } else if (fileExt === Exts.png) {
-                fs.copyFileSync(item, newFilePath);
-            } 
+                await jimpImage.writeAsync(newFilePath);
+            }
 
             await imagemin([newFilePath], { destination: targetFolderPath, plugins: [imageminPngquant()], glob: false });
 
+            const image = await Jimp.read(newFilePath);
+            await image.resize(Jimp.AUTO, 200).quality(80).writeAsync(thumbFilePath);
+            await imagemin([thumbFilePath], { destination: targetFolderPath, plugins: [imageminMozjpeg()], glob: false });
+
             assets.push({ 
                 filename: `i_${newFilename.replace(/-/g, '_')}`, 
+                thumbFilename: `i_${newFilename.replace(/-/g, '_')}_thumb`, 
                 path: path.relative(path.join(projectPath, 'public'), newFilePath).replace(/\\/g, '\\\\'), 
+                thumbPath: path.relative(path.join(projectPath, 'public'), thumbFilePath).replace(/\\/g, '\\\\'),
                 project: path.basename(targetFolderPath).replace(/-/g, '_') 
             });
         } else if (fileExt === Exts.ttf) {
@@ -108,7 +113,7 @@ async function OptimizeAssets$() {
 export const Assets = {
 ${_(assets).groupBy(a => a.project).map((values, project) => (
 `  ${project}: {
-    ${values.map(file => `${file.filename}: '${file.path}'`).join(',\n    ')}
+    ${values.map(file => `${file.filename}: '${file.path}',\n    ${file.thumbFilename}: '${file.thumbPath}'`).join(',\n    ')}
   }`
 )).join(',\n')}
 }

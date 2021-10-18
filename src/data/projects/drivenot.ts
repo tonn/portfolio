@@ -9,10 +9,11 @@ export const DriveNotProject: IProject = {
   SecondaryTechs: ['ios', 'android'],
   Description: 'The customer had mobile ready web site, which he wanted to wrap into cross-platform application. I used Cordova with Ionic 2 for this project. In the result we have "White Label" application. The customer can re-brand app by adding simple template.',
   Images: [{
-    Filename: Assets.drivenot.i_a_logo
+    Filename: Assets.drivenot.i_a_logo,
+    Thumb: Assets.drivenot.i_a_logo_thumb
   }, {
     Filename: Assets.drivenot.i_a_drivenot,
-    Description: ''
+    Thumb: Assets.drivenot.i_a_drivenot_thumb
   }]
 }
 

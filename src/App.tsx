@@ -152,7 +152,7 @@ export default class App extends React.Component<any, {
           <p className={cn(elem1('ProjectImages'), 'noprint')}>
             <Map items={project.Images}>
               { (item) => <>
-                <img className={elem1('ProjectImage')} src={item.Filename} alt='' />
+                <img className={elem('ProjectImage')} src={item.Thumb} alt='' />
               </> }
             </Map>
           </p>

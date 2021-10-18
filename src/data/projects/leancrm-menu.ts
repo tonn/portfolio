@@ -8,9 +8,11 @@ export const LeanCRMMenu: IProject = {
   PrimaryTechs: ['html', 'scss', 'typescript', 'angular'],
   Description: 'Client wanted a customizable main menu. Menu structure was downloaded from server. Menu had two states - full width and collapsed.',
   Images: [{
-    Filename: Assets.leancrm_menu.i_a_menu1
+    Filename: Assets.leancrm_menu.i_a_menu1,
+    Thumb: Assets.leancrm_menu.i_a_menu1_thumb
   }, {
-    Filename: Assets.leancrm_menu.i_a_menu2
+    Filename: Assets.leancrm_menu.i_a_menu2,
+    Thumb: Assets.leancrm_menu.i_a_menu2_thumb
   }]
 }
 

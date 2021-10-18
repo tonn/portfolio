@@ -22,6 +22,7 @@ export interface IProject {
   Team?: string,
   Images: {
     Filename: string,
+    Thumb?: string,
     Description?: string
   }[],
   Links?: {

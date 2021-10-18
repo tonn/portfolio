@@ -9,14 +9,19 @@ export const AvgustProject: IProject = {
   Description: '',
   Images: [{
     Filename: Assets.avgust.i_a_logo,
+    Thumb: Assets.avgust.i_a_logo_thumb
   }, {
     Filename: Assets.avgust.i_a_avgust_1,
+    Thumb: Assets.avgust.i_a_avgust_1_thumb
   }, {
     Filename: Assets.avgust.i_a_avgust_2,
+    Thumb: Assets.avgust.i_a_avgust_2_thumb
   }, {
     Filename: Assets.avgust.i_a_avgust_3,
+    Thumb: Assets.avgust.i_a_avgust_3_thumb
   }, {
-    Filename: Assets.avgust.i_a_avgust_5
+    Filename: Assets.avgust.i_a_avgust_5,
+    Thumb: Assets.avgust.i_a_avgust_5_thumb
   }],
   Links: {
     GooglePlay: 'https://play.google.com/store/apps/details?id=com.avgust.avgustcropprotection',

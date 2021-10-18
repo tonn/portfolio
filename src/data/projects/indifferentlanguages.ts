@@ -11,15 +11,20 @@ export const IDLProject: IProject = {
   E2E tests is implemented for part of user cases. It was done with appium, webdriver.io and jest.`,
   Team: 'Me and one more backend developer',
   Images: [{
-    Filename: Assets.indifferentlanguages.i_a_splash
+    Filename: Assets.indifferentlanguages.i_a_splash,
+    Thumb: Assets.indifferentlanguages.i_a_splash_thumb
   }, {
-    Filename: Assets.indifferentlanguages.i_a_unnamed
+    Filename: Assets.indifferentlanguages.i_a_unnamed,
+    Thumb: Assets.indifferentlanguages.i_a_unnamed_thumb
   }, {
-    Filename: Assets.indifferentlanguages.i_a_unnamed_1
+    Filename: Assets.indifferentlanguages.i_a_unnamed_1,
+    Thumb: Assets.indifferentlanguages.i_a_unnamed_1_thumb
   }, {
-    Filename: Assets.indifferentlanguages.i_a_unnamed_2
+    Filename: Assets.indifferentlanguages.i_a_unnamed_2,
+    Thumb: Assets.indifferentlanguages.i_a_unnamed_2_thumb
   }, {
-    Filename: Assets.indifferentlanguages.i_a_unnamed_3
+    Filename: Assets.indifferentlanguages.i_a_unnamed_3,
+    Thumb: Assets.indifferentlanguages.i_a_unnamed_3_thumb
   }]
 }
 

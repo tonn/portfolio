@@ -7,9 +7,10 @@ export const ISSCargoTrafficProject: IProject = {
   End: new Date(2015, 0),
   PrimaryTechs: ['c#', 'winforms', 'wcf', 'mssql', 'entityframework'],
   Description: '',
-  Images: [{
-    Filename: Assets.ISSCargoTraffic.i_a_image009
-  }, ...Object.values(Assets.ISSCargoTraffic).map(i => ({ Filename: i }))]}
+  Images: [
+    ...Object.values(Assets.ISSCargoTraffic).filter(i => !i.includes('.thumb')).map(i => ({ Filename: i, Thumb: i.replace('.png', '.thumb.jpg') }))
+  ]
+}
 
 export const ISSCargoTrafficProjectRu: IProject = {
   ...ISSCargoTrafficProject,
