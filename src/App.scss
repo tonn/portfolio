@@ -20,6 +20,23 @@ $color: #000;
     padding: 2.5vw;
   }
 
+  &__UtilButtons {
+    font-family: $fontMono;
+  }
+
+  &__UtilButton {
+    cursor: pointer;
+    color: lightgray;
+
+    &:hover {
+      color: $color;
+    }
+
+    &_Selected {
+      color: $color;
+    }
+  }
+
   &__Intro {
     display: flex;
     flex-direction: row;

@@ -26,7 +26,7 @@ const LanguageModels: ILanguageModel[] = [{
   Icon: RuIcon
 }]
 
-const Separator = () => <p className={elem1('Separator')}></p>;
+const Separator = () => <p className={elem('Separator')}></p>;
 
 export default class App extends React.Component<any, {
   CV?: ICV,
@@ -109,8 +109,19 @@ export default class App extends React.Component<any, {
     return (<div className={block()}>
       <div className={elem('Intro')}>
         <div>
+          <div className={cn(elem('UtilButtons'), 'noprint')}>
+            <Map items={LanguageModels}>
+              {lang => <>
+                <span className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
+                  {lang.Language}
+                </span>,&nbsp;
+              </>}
+            </Map>
+            <span className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</span>
+            <span className={elem('UtilButton')} onClick={() => window.print()}>print</span>
+          </div>
+
           <h1>About Me</h1>
-          {/* <p><span>{CV.FirstName} {CV.SecondName}</span></p> */}
 
           <p dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></p>
 
@@ -154,16 +165,6 @@ export default class App extends React.Component<any, {
         </>)}
 
 
-      <ButtonGroup className={cn(elem('Langs'), 'noprint')} size='small' variant='contained'>
-        { LanguageModels.map(langvm => 
-            <Button key={langvm.Language} 
-                    color={Language === langvm.Language ? 'primary' : 'default'} 
-                    onClick={() => this.setLanguage(langvm.Language)}><langvm.Icon /></Button>
-        )}
-
-        <Button onClick={() => this.downloadPdf()}><PictureAsPdf /></Button>
-        <Button onClick={() => window.print()}><Print /></Button>
-      </ButtonGroup>
       <p className={cn(elem('Footer'), 'noprint')}>
         Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
         <div>Icons made by <a href="" title="feen">feen</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
