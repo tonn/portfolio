@@ -1,19 +1,19 @@
 @import 'colors';
-@import "node_modules/sass-google-fonts/src/GoogleFonts.scss";
+@import 'node_modules/sass-google-fonts/src/GoogleFonts.scss';
 $font: 'Noto Sans';
 $fontMono: 'Noto Sans Mono';
 @include google-font($font);
 @include google-font($fontMono);
+@import 'shared';
 
 $color: #000;
 
 .App {
+  @include absolute-lt;
+  @include size(100%);
   font-family: $font;
-  width: 100%;
-  // margin-left: auto;
-  // margin-right: auto;
   padding: 2.5vw 10vw;
-  // overflow: hidden;
+  overflow: auto;
   color: $color;
 
   @media (orientation: portrait) {
@@ -123,6 +123,7 @@ $color: #000;
 
   &__Contact {
     margin-right: 1vw;
+    white-space: nowrap;
 
     &:hover #{$ContactCopyButtonClass} {
       opacity: 1;

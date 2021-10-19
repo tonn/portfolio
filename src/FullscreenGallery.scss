@@ -1,0 +1,46 @@
+@import './shared.scss';
+
+.FullscreenGallery {
+    @include absolute-lt;
+    @include size(100%);
+    @include flex(column);
+    z-index: 1;
+    overflow: hidden;
+    background-color: white;
+
+    &__Thumbs {
+        flex: 0 0 auto;
+        padding: .5vw;
+        text-align: center;
+    }
+
+    &__Thumb {
+        display: inline-block;
+        height: 5vw;
+        border: 1px solid lightgray;
+        height: 5vw;
+        cursor: pointer;
+
+        &:not(:last-child) {
+          margin-right: 1vw;
+        }
+    }
+
+    &__CloseButton {
+        @include absolute-rt(1vw);
+        cursor: pointer;
+        font-size: 36px;
+        z-index: 999;
+    }
+
+    &__PanZoom {
+        flex: 1 1 auto;
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__PanZoomWrapper {
+        @include absolute-lt;
+        @include size(100% !important);
+    }
+}
