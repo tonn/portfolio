@@ -13,3 +13,18 @@ $font: 'Noto Sans';
 $fontMono: 'Noto Sans Mono';
 @include google-font($font);
 @include google-font($fontMono);
+
+@mixin TextOutline($color: white) {
+    text-shadow: 1px 1px 0px $color, -1px -1px 0px $color, -1px 1px 0px $color, 1px -1px 0px $color;
+}
+
+@mixin Selectable() {
+    cursor: pointer;
+    color: $color;
+    opacity: .5;
+
+    &:hover, &_Selected {
+      color: $color;
+      opacity: 1;
+    }
+}

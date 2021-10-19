@@ -8,7 +8,7 @@ import nameof from 'ts-nameof.macro';
 import './App.scss';
 import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
-import { CVs, ICV, IProject, Language } from './data';
+import { CVs, ICV, IProject, Language, TechCategories } from './data';
 import { FullscreenGallery, FullscreenGalleryProps } from './FullscreenGallery';
 import { BEM, cn } from './helpers/BEM';
 import { If } from './helpers/If';
@@ -17,7 +17,7 @@ import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 
 /**
  * TODO:
- * 1) Pictures fullscreen view (zoom, pan, mobile friendly)
+ * 1)+ Pictures fullscreen view (zoom, pan, mobile friendly)
  * 2) Techs categories
  * 3) Techs sort
  * 4) Select techs to filter project (include techs in project summary)
@@ -45,7 +45,7 @@ const LanguageModels: ILanguageModel[] = [{
   Icon: RuIcon
 }]
 
-const Separator = () => <p className={elem('Separator')}></p>;
+const Separator = () => <div className={elem('Separator')}></div>;
 
 const MonthYear = (date: Date) => `${date.getFullYear()}/${date.getMonth() + 1}`;
 
@@ -54,17 +54,26 @@ const Dates: React.FC<{ Start: Date, End?: Date }> = ({Start, End}) => <span cla
       : <>In progress from {MonthYear(Start)}</>}  
 </span>;
 
+type TechsGroup = 'off' | 'on';
+const TechGroupVariants: TechsGroup[] = ['off', 'on']
+type TechsSort = 'name' | 'actuality';
+const TechSortVariants: TechsSort[] = ['actuality', 'name'];
+
+interface ITech { name: string, experienceYears: number };
+
 export default class App extends React.Component<any, {
   CV?: ICV,
   Language?: Language,
   CurrentProject?: IProject,
-  Techs: any[], 
-  FullscreenGallery?: FullscreenGalleryProps
+  TechsGroups: { [name: string]: ITech[] }, 
+  FullscreenGallery?: FullscreenGalleryProps,
+  TechsGroup: TechsGroup,
+  TechsSort: TechsSort
 }> {
   constructor(props: Readonly<{}>) {
     super(props);
 
-    this.state = { Techs: [] };
+    this.state = { TechsGroups: {}, TechsGroup: 'off', TechsSort: 'actuality' };
   }
 
   componentDidMount() {
@@ -80,38 +89,85 @@ export default class App extends React.Component<any, {
     window.open(`AntonNovikovCV_${this.state.CV?.Language}.pdf`, 'blank');
   }
 
-  private getTechs(CV: ICV): { name: string, experienceYears: number }[] {
+  private refreshTechs() {
     const now = new Date();
+    const cv = this.state.CV;
+    const sort = this.state.TechsSort;
+    const group = this.state.TechsGroup;
 
-    if (CV) {
-      const techs: { [tech: string]: Interval[] } = {};
+    if (cv) {
+      const preTechs: { [tech: string]: Interval[] } = {};
 
-      for (const project of CV.Projects) {
+      for (const project of cv.Projects) {
         for (const tech of project.PrimaryTechs) {
-          if (!techs[tech]) {
-            techs[tech] = [];
+          if (!preTechs[tech]) {
+            preTechs[tech] = [];
           }
 
-          techs[tech].push({ start: project.Start, end: project.End || now });
+          preTechs[tech].push({ start: project.Start, end: project.End || now });
         }
       }
+      
+      const sortBySelector = ([name, intervals]: [name: string, intervals: Interval[]] ) => 
+        sort === 'actuality' ? max(intervals.map(i => i.end)) : 
+        sort === 'name'      ? name : (() => { throw Error() })();
 
-      return _.orderBy(Object.entries(techs), ([name, intervals]) => max(intervals.map(i => i.end)), 'desc')
-              .map(([name, intervals]) => ({ name, experienceYears: TimeIntervalsLength(intervals) }));
+      const sortDesc = true//sort === 'actuality';
+
+      const techs = _.orderBy(Object.entries(preTechs), sortBySelector, sortDesc ? 'desc' : 'asc')
+                     .map(([name, intervals]) => ({ name, experienceYears: TimeIntervalsLength(intervals) }));
+
+      const groups: { [name: string]: ITech[] } = {};
+
+      if (group === 'on') {
+        const unknown: ITech[] = [];
+
+        for (const tech of techs) {
+          let known = false;
+
+          for (const group in TechCategories) {
+            if (TechCategories[group].includes(tech.name)) {
+              groups[group] = groups[group] || [];
+              groups[group].push(tech);
+              known = true;
+            }
+          }
+
+          if (!known) {
+            unknown.push(tech);
+          }
+        }
+
+        groups['Other'] = groups['Other'] || []
+        groups['Other'].push(...unknown);
+      } else {
+        groups[''] = techs;
+      }
+      
+      this.setState({ TechsGroups: groups });
     }
-
-    return [];
   }
 
-  private setCV(CV: ICV) {
-    this.setState({ CV });
+  private async setCV(CV: ICV) {
+    this.setState({ CV }, () => {
+      this.refreshTechs();
+    });
+  }
 
-    const Techs = this.getTechs(CV);
-    this.setState({ Techs });
+  private setTechsGroup(groupBy: TechsGroup) {
+    this.setState({ TechsGroup: groupBy }, () => {
+      this.refreshTechs();
+    });
+  }
+
+  private setTechsSort(sortBy: TechsSort) {
+    this.setState({ TechsSort: sortBy }, () => {
+      this.refreshTechs();
+    });
   }
 
   render() {
-    const { CV, Language, Techs } = this.state;
+    const { CV, Language, TechsGroups, TechsGroup, TechsSort } = this.state;
     const { commit } = GitInfo();
 
     if (!CV) {
@@ -125,17 +181,17 @@ export default class App extends React.Component<any, {
             <div className={cn(elem('UtilButtons'), 'noprint')}>
               <Map items={LanguageModels}>
                 {lang => 
-                  <span key={lang.Language} className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
+                  <div key={lang.Language} className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
                     {lang.Language},&nbsp;
-                  </span>}
+                  </div>}
               </Map>
-              <span className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</span>
-              <span className={elem('UtilButton')} onClick={() => window.print()}>print</span>
+              <div className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</div>
+              <div className={elem('UtilButton')} onClick={() => window.print()}>print</div>
             </div>
 
             <h1>About Me</h1>
 
-            <p dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></p>
+            <div dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
 
             <Map items={CV.Contacts}>
               {contact => <span key={contact.Link} className={elem('Contact')}>
@@ -149,28 +205,51 @@ export default class App extends React.Component<any, {
         </div>
         
         <h1>Techs</h1>
-        <p>
-          <Map items={Techs}>
-          { (tech, index) => 
-              <span key={tech.name} className={elem('TechTag')}>
-                <span className={elem('TechName')}>{tech.name}</span>
-                <span className={elem('TechYear')}>&nbsp;{Math.round(tech.experienceYears * 10) / 10}&nbsp;years</span>
-                {(index === Techs.length - 1) || <span className={elem('TechComma')}>, </span>}
-              </span> }
+        <div className={elem('TechsOptions')}>
+          Grouping:&nbsp;
+          <Map items={TechGroupVariants}>
+            {(item, index) => <>
+              <If condition={index !== 0}>,&nbsp;</If>
+              <div className={elem('TechsOptionsItem', TechsGroup === item && 'Selected')} onClick={() => this.setTechsGroup(item)}>{item}</div></>}
           </Map>
-        </p>
+
+          &nbsp;Sort by:&nbsp;
+          <Map items={TechSortVariants}>
+            {(item, index) => <>
+              <If condition={index !== 0}>,&nbsp;</If>
+              <div className={elem('TechsOptionsItem', TechsSort === item && 'Selected')} onClick={() => this.setTechsSort(item)}>{item}</div>
+            </>}
+          </Map>
+        </div>
+        <div className={elem('Techs')}>
+          <Map items={Object.keys(TechsGroups)}>
+            { group => <>
+              <If condition={!!group}><div className={elem('TechsGroupTitle')}>{group}:</div></If>
+              <div className={elem('TechsGroupItems')}>
+                <Map items={TechsGroups[group]}>
+                  { (tech, index) => 
+                    <span key={tech.name} className={elem('TechTag')}>
+                      <If condition={index !== 0}><span className={elem('TechComma')}>, </span></If>
+                      <span className={elem('TechName')}>{tech.name}</span>
+                      <span className={elem('TechYear')}>&nbsp;{Math.round(tech.experienceYears * 10) / 10}&nbsp;years</span>                    
+                    </span> }
+                </Map> 
+              </div>
+            </>}
+          </Map>
+        </div>
 
         <h1>Projects</h1>
         <Map items={_.orderBy(CV.Projects, p => p.Start, 'desc')}>
           { project => 
             <React.Fragment key={project.Title}>
-              <p> <span className={elem('ProjectTitle')}>{project.Title}</span> </p>
-              <p className={elem('ProjectSummary')}>
+              <div> <span className={elem('ProjectTitle')}>{project.Title}</span> </div>
+              <div className={elem('ProjectSummary')}>
                 <Dates Start={project.Start} End={project.End} />
                 <span className={elem('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</span>
-              </p>
-              <p className={elem('ProjectDescription')}>{project.Description}</p>
-              <p className={cn(elem('ProjectImages'), 'noprint')}>
+              </div>
+              <div className={elem('ProjectDescription')}>{project.Description}</div>
+              <div className={cn(elem('ProjectImages'), 'noprint')}>
                 <Map items={project.Images}>
                   { (item) => <>
                     <img key={item.Thumb} className={elem('ProjectImage')} src={item.Thumb} alt='' 
@@ -183,22 +262,22 @@ export default class App extends React.Component<any, {
                         } })} />
                   </> }
                 </Map>
-              </p>
+              </div>
               <Separator />
             </React.Fragment> }
         </Map>
 
         <h1>Career</h1>
         <Map items={_.orderBy(Object.values(CV.Career), i => i.Start, 'desc')}>
-          { item => <p key={item.Label}>
+          { item => <div key={item.Label}>
             <Dates Start={item.Start} End={item.End} /> {item.Label} <If condition={!!item.Link}><a href={item.Link}>{item.LinkLabel || 'Organization site'}</a></If>
-          </p> }
+          </div> }
         </Map>
 
-        <p className={cn(elem('Footer'), 'noprint')}>
+        <div className={cn(elem('Footer'), 'noprint')}>
           Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
           <div>Icons made by <a href='#' title='feen'>feen</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-        </p>
+        </div>
       </div>
  
       { this.state.FullscreenGallery && <FullscreenGallery {...this.state.FullscreenGallery}/> }

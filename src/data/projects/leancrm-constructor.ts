@@ -2,10 +2,10 @@ import { IProject } from '..';
 import { Assets } from '../../assets.g';
 
 export const LeanCRMConstructorProject: IProject = {
-  Title: 'Custom CRM workflow designer',
+  Title: 'LeanCRM - Business workflow designer based on IDEF0 methodology',
   Start: new Date(2017, 3),
   End: new Date(2021, 2),
-  PrimaryTechs: ['html', 'scss', 'typescript', 'angular'],
+  PrimaryTechs: ['html', 'scss/css', 'typescript', 'angular'],
   Description: 'My client wanted fully-custom designed graph based constructor for CRM-workflow. System frontend was built on Angular 6.',
   Images: [{
     Filename: Assets.leancrm_constructor.i_a_2019_01_30_scenariy,

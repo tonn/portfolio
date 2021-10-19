@@ -104,7 +104,11 @@ const ruCV: ICV = {
 
 export const CVs: ICV[] = [enCV, ruCV];
 
-export const TechCategories = {
-  Frontend: [],
-  Backend: [],
+export const TechCategories: { [name: string]: string[] } = {
+  Frontend: ['angular', 'angularjs', 'scss/css', 'html', 'typescript', 'javascript', 'jest', 'react', 'webdriverio'],
+  Backend: ['asp.net/webapi', 'c#', 'entityframework', 'mssql', 'wcf'],
+  Desktop: ['c#', 'entityframework', 'mssql', 'wcf', 'winforms'],
+  Mobile: ['appium', 'capacitor', 'cordova', 'ionic'],
+  Testing: ['appium', 'jest', 'webdriverio'],
+  Other: ['azure']
 }

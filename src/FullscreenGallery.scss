@@ -29,15 +29,11 @@
 
     &__CloseButton {
         @include absolute-rt(1vw);
-        cursor: pointer;
+        @include Selectable;
+
         font-size: $spacing * 2;
         z-index: 999;
         font-family: $fontMono;
-        color: $color3;
-
-        &:hover {
-            color: $color;
-        }
     }
 
     &__PanZoom {

@@ -14,21 +14,17 @@
     padding: 2.5vw;
   }
 
+  > div {
+    margin: 1.5vw 0;
+  }
+
   &__UtilButtons {
+    @include flex(row);
     font-family: $fontMono;
   }
 
   &__UtilButton {
-    cursor: pointer;
-    color: $color3;
-
-    &:hover {
-      color: $color;
-    }
-
-    &_Selected {
-      color: $color;
-    }
+    @include Selectable;
   }
 
   &__Intro {
@@ -47,6 +43,35 @@
       width: 20vw;
       height: 20vw;
     }
+  }
+
+  &__TechsOptions {
+    @include flex(row);
+    font-family: $fontMono;
+    font-size: .8em;
+
+    > * {
+      display: inline-block;
+    }
+  }
+
+  &__TechsOptionsItem {
+    @include Selectable;
+  }
+
+  &__Techs {
+    display: grid;
+    gap: 1vw;
+  }
+
+  &__TechsGroupTitle {
+    grid-column: 1 / 2;
+    font-family: $fontMono;
+    font-size: .8em;
+  }
+
+  &__TechsGroupItems {
+    grid-column: 2 / 2;
   }
 
   &__TechName {

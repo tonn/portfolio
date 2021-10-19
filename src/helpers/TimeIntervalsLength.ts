@@ -21,7 +21,5 @@ export function TimeIntervalsLength(intervals: Interval[]): number {
     }
   }
 
-  console.log(JSON.stringify(intervals));
-
   return intervals.map(i => differenceInDays(i.end, i.start)).reduce((sum, current) => sum + current, 0) / 365;
 }
