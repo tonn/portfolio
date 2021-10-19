@@ -4,8 +4,7 @@ import nameof from 'ts-nameof.macro';
 import { BEM } from './helpers/BEM';
 import { Map } from './helpers/Map';
 import './FullscreenGallery.scss';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 export interface FullscreenGalleryProps { Thumbs: string[], Images: string[], OpenAt?: number, OnClose: () => void };
 
@@ -15,6 +14,10 @@ export const FullscreenGallery: React.FC<FullscreenGalleryProps> = ({ Thumbs, Im
   const [ index, setIndex ] = useState(0);
   const [ imageLoaded, onImageLoaded ] = useReducer(x => x + 1, 0);
   const [ imageLoading, setImageLoading ] = useState(false);
+
+  useHotkeys('esc', () => {
+    OnClose();
+  })
 
   useEffect(() => {
     if (OpenAt) {
@@ -32,7 +35,7 @@ export const FullscreenGallery: React.FC<FullscreenGalleryProps> = ({ Thumbs, Im
   }, [imageLoaded]);
 
   return <div className={block()}>
-    <FontAwesomeIcon icon={faTimes} className={elem('CloseButton')} onClick={OnClose} />
+    <div className={elem('CloseButton')} onClick={OnClose}>[esc]</div>
     <div className={elem('PanZoom')}>
       <TransformWrapper minScale={.1} centerOnInit>
         {({ zoomToElement }) => {

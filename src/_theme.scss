@@ -1,0 +1,15 @@
+$color: #000;
+
+$color1: #AAAAAA;
+$color2: #999999;
+$color3: lightgray;
+
+$spacing: 12px;
+
+$semibold: 500;
+
+@import 'node_modules/sass-google-fonts/src/GoogleFonts.scss';
+$font: 'Noto Sans';
+$fontMono: 'Noto Sans Mono';
+@include google-font($font);
+@include google-font($fontMono);

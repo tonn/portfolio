@@ -1,4 +1,5 @@
-@import './shared.scss';
+@import 'shared';
+@import 'theme';
 
 .FullscreenGallery {
     @include absolute-lt;
@@ -29,8 +30,14 @@
     &__CloseButton {
         @include absolute-rt(1vw);
         cursor: pointer;
-        font-size: 36px;
+        font-size: $spacing * 2;
         z-index: 999;
+        font-family: $fontMono;
+        color: $color3;
+
+        &:hover {
+            color: $color;
+        }
     }
 
     &__PanZoom {
