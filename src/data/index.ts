@@ -112,3 +112,26 @@ export const TechCategories: { [name: string]: string[] } = {
   Testing: ['appium', 'jest', 'webdriverio'],
   Other: ['azure']
 }
+
+export const TechsPriority: string[] = [
+  "react",
+  "angular",
+  "typescript",
+  "html",
+  "scss/css",
+  "jest",
+  "appium",
+  "webdriverio",
+  "ionic",
+  "cordova",
+  "capacitor",
+  "angularjs",
+  "c#",
+  "asp.net/webapi",
+  "entityframework",
+  "mssql",
+  "azure",
+  "javascript",
+  "winforms",
+  "wcf"
+];

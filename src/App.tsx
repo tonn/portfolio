@@ -8,7 +8,7 @@ import nameof from 'ts-nameof.macro';
 import './App.scss';
 import { ReactComponent as RuIcon } from './assets/russia.svg';
 import { ReactComponent as UKIcon } from './assets/united-kingdom.svg';
-import { CVs, ICV, IProject, Language, TechCategories } from './data';
+import { CVs, ICV, IProject, Language, TechCategories, TechsPriority } from './data';
 import { FullscreenGallery, FullscreenGalleryProps } from './FullscreenGallery';
 import { BEM, cn } from './helpers/BEM';
 import { If } from './helpers/If';
@@ -18,8 +18,8 @@ import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 /**
  * TODO:
  * 1)+ Pictures fullscreen view (zoom, pan, mobile friendly)
- * 2) Techs categories
- * 3) Techs sort
+ * 2)+ Techs categories
+ * 3)+ Techs sort
  * 4) Select techs to filter project (include techs in project summary)
  * 5) Fill the data!
  * 5) Add google stats. Or something like that.
@@ -107,15 +107,18 @@ export default class App extends React.Component<any, {
           preTechs[tech].push({ start: project.Start, end: project.End || now });
         }
       }
-      
-      const sortBySelector = ([name, intervals]: [name: string, intervals: Interval[]] ) => 
+
+      const sortBySelector = ([name, intervals]: [name: string, intervals: Interval[]]) => 
         sort === 'actuality' ? max(intervals.map(i => i.end)) : 
         sort === 'name'      ? name : (() => { throw Error() })();
 
-      const sortDesc = true//sort === 'actuality';
+      const sortByPriority = ([name, intervals]: [name: string, intervals: Interval[]]) =>
+        TechsPriority.indexOf(name);
 
-      const techs = _.orderBy(Object.entries(preTechs), sortBySelector, sortDesc ? 'desc' : 'asc')
-                     .map(([name, intervals]) => ({ name, experienceYears: TimeIntervalsLength(intervals) }));
+      const sortDesc = sort === 'actuality';
+
+      const techs = _.orderBy(Object.entries(preTechs), [sortBySelector, sortByPriority], [sortDesc ? 'desc' : 'asc', 'asc'])
+                     .map(([name, intervals]) => ({ name, experienceYears: TimeIntervalsLength(intervals), intervals }));
 
       const groups: { [name: string]: ITech[] } = {};
 
