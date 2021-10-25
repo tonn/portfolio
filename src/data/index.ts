@@ -43,7 +43,7 @@ export interface ICV {
   Introduction: string,
   Career: { [name: string]: { Label: string, Start: Date, End?: Date, Description?: string, LinkLabel?: string, Link?: string } },
   Projects: IProject[],
-  Contacts: { Link: string, Label?: string, Text: string }[]
+  Contacts: { Link: string, Label?: string, PrintText?: string, Text: string }[]
 }
 
 const enCV: ICV = {
@@ -82,7 +82,7 @@ const enCV: ICV = {
     { Label: 'Mail', Text: 'tonn.post@gmail.com', Link: 'mailto:tonn.post@gmail.com' },
     { Label: 'Skype', Text: 'novikov_a_l', Link: 'skype:novikov_a_l' },
     { Label: 'Telegram', Text: '@mr_tonn', Link: 'https://telegram.me/mr_tonn' },
-    { Label: 'Upwork', Text: 'Profile', Link: 'https://www.upwork.com/freelancers/~01bc725c5beb65fcad' },
+    { Label: 'Upwork', Text: 'Profile', Link: 'https://www.upwork.com/freelancers/~01bc725c5beb65fcad', PrintText: 'https://www.upwork.com/freelancers/~01bc725c5beb65fcad' },
     { Label: 'Github', Text: 'https://github.com/tonn', Link: 'https://github.com/tonn' },
     { Label: 'Bitbucket', Text: 'https://bitbucket.org/tonn', Link: 'https://bitbucket.org/tonn' }
   ]

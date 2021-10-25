@@ -1,18 +1,20 @@
 @import 'theme';
 @import 'shared';
 
-
 .App {
-  @include absolute-lt;
-  @include size(100%);
+  width: 100%;
   font-family: $font;
   padding: 2.5vw 20vw;
-  overflow: hidden auto;
+  // overflow: hidden auto;
   color: $color;
   line-height: 1.5;
 
   @media (orientation: portrait) {
     padding: 2.5vw;
+  }
+
+  @media print {
+    padding: 5vw;
   }
 
   > div {
@@ -23,6 +25,13 @@
     display: grid;
     margin-top: $spacing;
     // gap: 1vw;
+    break-inside: avoid;
+
+    > * {
+      min-width: 0;
+      min-height: 0;
+      white-space: normal;
+    }
   }
 
   &__UtilButtons {
@@ -52,12 +61,15 @@
   &__Contacts {
     grid-column: 1;
     grid-row: 4;
+    display: flex;
+    flex-wrap: wrap;
+    break-inside: avoid;
   }
 
   &__Photo {
     grid-column: 2;
     grid-row: 2/4;
-    
+
     width: 10vw;
     height: 10vw;
     transform: scaleX(-1);
@@ -69,6 +81,10 @@
     @media (orientation: portrait) {
       width: 20vw;
       height: 20vw;
+    }
+
+    @media print {
+      background-color: white;
     }
   }
 
@@ -89,6 +105,11 @@
   &__Techs {
     display: grid;
     gap: 1vw;
+    break-inside: avoid;
+
+    &_NoGrouping {
+      gap: 0;
+    }
   }
 
   &__TechsGroupTitle {
@@ -110,6 +131,14 @@
     font-family: $font;
     color: gray;
     font-size: .9em;
+  }
+
+  &__Project {
+    break-inside: avoid;
+    
+    > div {
+      margin: 1.5vw 0;
+    }
   }
 
   &__ProjectTitle {

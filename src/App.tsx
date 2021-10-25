@@ -146,7 +146,7 @@ export default class App extends React.Component<any, {
       } else {
         groups[''] = techs;
       }
-      
+
       this.setState({ TechsGroups: groups });
     }
   }
@@ -198,7 +198,10 @@ export default class App extends React.Component<any, {
             <Map items={CV.Contacts}>
               {contact => <span key={contact.Link} className={elem('Contact')}>
                 { contact.Label && <><span className={elem('ContactLabel')}>{contact.Label}</span>:&nbsp;</> }
-                <a href={contact.Link} target='blank'>{contact.Text}</a>&nbsp;
+                <a className={cn(!!contact.PrintText && 'noprint')} href={contact.Link} target='blank'>{contact.Text}</a>&nbsp;
+                <If condition={!!contact.PrintText}>
+                  <a href='#' className={'noscreen'}>{contact.PrintText}</a>
+                </If>
                 <FontAwesomeIcon icon={faCopy} className={cn(elem('ContactCopyButton'), 'noprint')} onClick={() => navigator.clipboard.writeText(contact.Text)} />
               </span>}
             </Map>
@@ -245,7 +248,7 @@ export default class App extends React.Component<any, {
         <h1>Projects</h1>
         <Map items={_.orderBy(CV.Projects, p => p.Start, 'desc')}>
           { project => 
-            <React.Fragment key={project.Title}>
+            <div key={project.Title} className={elem('Project')}>
               <div> <span className={elem('ProjectTitle')}>{project.Title}</span> </div>
               <div className={elem('ProjectSummary')}>
                 <Dates Start={project.Start} End={project.End} />
@@ -265,14 +268,21 @@ export default class App extends React.Component<any, {
                 </Map>
               </div>
               <Separator />
-            </React.Fragment> }
+            </div> }
         </Map>
 
         <h1>Career</h1>
         <Map items={_.orderBy(Object.values(CV.Career), i => i.Start, 'desc')}>
-          { item => <div key={item.Label}>
-            <Dates Start={item.Start} End={item.End} /> {item.Label} <If condition={!!item.Link}><a href={item.Link}>{item.LinkLabel || 'Organization site'}</a></If>
-          </div> }
+          { item => 
+            <div key={item.Label}>
+              <Dates Start={item.Start} End={item.End} />
+              <span>&nbsp;{item.Label}&nbsp;</span>
+              <If condition={!!item.Link}>
+                <a className={'noprint'} href={item.Link}>{item.LinkLabel || 'Organization site'}</a>
+                <a className={'noscreen'} href={item.Link}>{item.Link}</a>
+              </If>
+            </div> 
+          }
         </Map>
 
         <div className={cn(elem('Footer'), 'noprint')}>
