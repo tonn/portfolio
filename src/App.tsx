@@ -179,23 +179,22 @@ export default class App extends React.Component<any, {
 
     return <>
       <div className={block()}>
+        <div className={cn(elem('UtilButtons'), 'noprint')}>
+          <Map items={LanguageModels}>
+            {lang => 
+              <div key={lang.Language} className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
+                {lang.Language},&nbsp;
+              </div>}
+          </Map>
+          <div className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</div>
+          <div className={elem('UtilButton')} onClick={() => window.print()}>print</div>
+        </div>
         <div className={elem('Intro')}>
-          <div>
-            <div className={cn(elem('UtilButtons'), 'noprint')}>
-              <Map items={LanguageModels}>
-                {lang => 
-                  <div key={lang.Language} className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
-                    {lang.Language},&nbsp;
-                  </div>}
-              </Map>
-              <div className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</div>
-              <div className={elem('UtilButton')} onClick={() => window.print()}>print</div>
-            </div>
+          <h1 className={elem('IntroTitle')}>About Me</h1>
 
-            <h1>About Me</h1>
+          <div className={elem('IntroText')} dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
 
-            <div dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
-
+          <div className={elem('Contacts')}>
             <Map items={CV.Contacts}>
               {contact => <span key={contact.Link} className={elem('Contact')}>
                 { contact.Label && <><span className={elem('ContactLabel')}>{contact.Label}</span>:&nbsp;</> }
@@ -204,6 +203,7 @@ export default class App extends React.Component<any, {
               </span>}
             </Map>
           </div>
+
           <img className={elem('Photo')} src={CV.Photo} alt='' />
         </div>
         

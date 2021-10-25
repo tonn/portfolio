@@ -49,7 +49,7 @@ const enCV: ICV = {
   SecondName: 'Novikov',
   Birthday: new Date('1988.05.18'),
   Language: 'en',
-  Photo: Assets.general.i_a_cv_avatar_square,
+  Photo: Assets.general.i_a_photo,
   Introduction: `Hi! My name is Anton Novikov. I'm professional full-stack developer with 9 total years of work experience.`,
   Career: {
     MasterDegree: {
