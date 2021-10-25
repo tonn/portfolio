@@ -208,7 +208,7 @@ export default class App extends React.Component<any, {
         </div>
         
         <h1>Techs</h1>
-        <div className={elem('TechsOptions')}>
+        <div className={cn(elem('TechsOptions'), 'noprint')}>
           Grouping:&nbsp;
           <Map items={TechGroupVariants}>
             {(item, index) => <>
@@ -224,7 +224,7 @@ export default class App extends React.Component<any, {
             </>}
           </Map>
         </div>
-        <div className={elem('Techs')}>
+        <div className={elem('Techs', TechsGroup === 'off' && 'NoGrouping')}>
           <Map items={Object.keys(TechsGroups)}>
             { group => <>
               <If condition={!!group}><div className={elem('TechsGroupTitle')}>{group}:</div></If>
