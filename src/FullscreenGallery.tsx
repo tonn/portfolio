@@ -5,12 +5,14 @@ import { BEM } from './helpers/BEM';
 import { Map } from './helpers/Map';
 import './FullscreenGallery.scss';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { IImage } from './data';
+import { If } from './helpers/If';
 
-export interface FullscreenGalleryProps { Thumbs: string[], Images: string[], OpenAt?: number, OnClose: () => void };
+export interface FullscreenGalleryProps { Images: IImage[], OpenAt?: number, OnClose: () => void };
 
 let zoom: (node: HTMLElement | string, scale?: number | undefined, animationTime?: number) => void; // HACK: 
 
-export const FullscreenGallery: React.FC<FullscreenGalleryProps> = ({ Thumbs, Images, OpenAt, OnClose }) => {
+export const FullscreenGallery: React.FC<FullscreenGalleryProps> = ({ Images, OpenAt, OnClose }) => {
   const [ index, setIndex ] = useState(0);
   const [ imageLoaded, onImageLoaded ] = useReducer(x => x + 1, 0);
   const [ imageLoading, setImageLoading ] = useState(false);
@@ -42,14 +44,17 @@ export const FullscreenGallery: React.FC<FullscreenGalleryProps> = ({ Thumbs, Im
           zoom = zoomToElement;
 
           return <TransformComponent wrapperClass={elem('PanZoomWrapper')}>
-            <img id={elem('Image')} src={Images[index]} alt='' onLoad={onImageLoaded} style={{ visibility: imageLoading ? 'hidden' : 'visible' }}/>
+            <img id={elem('Image')} src={Images[index].Filename} alt='' onLoad={onImageLoaded} style={{ visibility: imageLoading ? 'hidden' : 'visible' }}/>
           </TransformComponent>
         }}
 
       </TransformWrapper>
     </div>
+    <If condition={!!Images[index].Description}>
+      <div className={elem('Description')}>{Images[index].Description}</div>
+    </If>
     <div className={elem('Thumbs')}>
-      <Map items={Thumbs}>
+      <Map items={Images.map(i => i.Thumb)}>
         { (thumb, i) => <img key={thumb} className={elem('Thumb', i === index && 'Current')} src={thumb} alt=''
                              onClick={() => setIndex(i)} /> }
       </Map>

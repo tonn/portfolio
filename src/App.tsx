@@ -257,9 +257,7 @@ export default class App extends React.Component<any, {
                   { (item) => <>
                     <img key={item.Thumb} className={elem('ProjectImage')} src={item.Thumb} alt='' 
                         onClick={() => this.setState({ FullscreenGallery: { 
-
-                          Thumbs: project.Images.map(i => i.Thumb || ''), 
-                          Images: project.Images.map(i => i.Filename),
+                          Images: project.Images,
                           OpenAt: project.Images.indexOf(item),
                           OnClose: () => this.setState({ FullscreenGallery: undefined })
                         } })} />

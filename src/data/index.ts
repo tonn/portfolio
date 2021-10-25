@@ -11,6 +11,12 @@ import { StreetQuestProject, StreetQuestProjectRu } from './projects/streetquest
 
 export type Language = 'ru' | 'en';
 
+export interface IImage {
+  Filename: string,
+  Thumb?: string,
+  Description?: string
+}
+
 export interface IProject {
   Title: string,
   Start: Date,
@@ -20,11 +26,7 @@ export interface IProject {
   SecondaryTechs?: string[],
   Description: string,
   Team?: string,
-  Images: {
-    Filename: string,
-    Thumb?: string,
-    Description?: string
-  }[],
+  Images: IImage[],
   Links?: {
     Url?: string,
     GooglePlay?: string,
