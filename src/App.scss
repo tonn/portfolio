@@ -1,6 +1,13 @@
 @import 'theme';
 @import 'shared';
 
+@page  
+{ 
+  size: A4;
+  margin: 15mm 15mm 15mm 15mm;  
+} 
+
+
 .App {
   width: 100%;
   font-family: $font;
@@ -14,7 +21,11 @@
   }
 
   @media print {
-    padding: 5vw;
+    padding: 0;
+  }
+
+  h1 {
+    // break-after: avoid-page;
   }
 
   > div {
@@ -32,7 +43,7 @@
 
   &__Intro {
     margin-top: $spacing;
-    break-inside: avoid;
+    // break-inside: avoid;
 
     > * {
       min-width: 0;
@@ -52,7 +63,7 @@
 
   &__Contacts {
     margin-top: $spacing;
-    break-inside: avoid;
+    // break-inside: avoid;
     display: flex;
     flex-wrap: wrap;
   }
@@ -95,7 +106,7 @@
   &__Techs {
     display: grid;
     gap: 1vw;
-    break-inside: avoid;
+    // break-inside: avoid;
 
     &_NoGrouping {
       gap: 0;
@@ -124,7 +135,7 @@
   }
 
   &__Project {
-    break-inside: avoid;
+    // break-inside: avoid;
     
     > div {
       margin: 1.5vw 0;

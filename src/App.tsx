@@ -14,6 +14,7 @@ import { BEM, cn } from './helpers/BEM';
 import { If } from './helpers/If';
 import { Map } from './helpers/Map';
 import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
+import URLParse from 'url-parse';
 
 /**
  * TODO:
@@ -63,6 +64,10 @@ const TechSortVariants: TechsSort[] = ['actuality', 'name'];
 
 interface ITech { name: string, experienceYears: number };
 
+function TextWithLineWraps({ text }: { text: string }) {
+  return <>{text.split('\n').map(line => <>{line}<br/></>)}</>;
+}
+
 export default class App extends React.Component<any, {
   CV?: ICV,
   Language?: Language,
@@ -79,7 +84,9 @@ export default class App extends React.Component<any, {
   }
 
   componentDidMount() {
-    this.setLanguage('ru');
+    const url = URLParse(window.location.toString(), true);
+
+    this.setLanguage(url.query.lang === 'ru' ? 'ru' : 'en');
   }
 
   private setLanguage(lang: Language) {
@@ -200,13 +207,15 @@ export default class App extends React.Component<any, {
 
           <div className={elem('Contacts')}>
             <Map items={CV.Contacts}>
-              {contact => <span key={contact.Link} className={elem('Contact')}>
-                { contact.Label && <><span className={elem('ContactLabel')}>{contact.Label}</span>:&nbsp;</> }
-                <a className={cn(!!contact.PrintText && 'noprint')} href={contact.Link} target='blank'>{contact.Text}</a>&nbsp;
-                <If condition={!!contact.PrintText}>
-                  <a href='#' className={'noscreen'}>{contact.PrintText}</a>
+              {contact => <span key={contact.Link} className={cn(elem('Contact'), !contact.Text && 'noscreen' )}>
+                <span className={elem('ContactLabel')}>{contact.Label}:&nbsp;</span>
+                <If condition={!!contact.Text}>
+                  <a className={cn(!!contact.PrintText && 'noprint')} href={contact.Link} target='blank'>{contact.Text}</a>&nbsp;
+                  <FontAwesomeIcon icon={faCopy} className={cn(elem('ContactCopyButton'), 'noprint')} onClick={() => navigator.clipboard.writeText(contact.Text || '')}/>
                 </If>
-                <FontAwesomeIcon icon={faCopy} className={cn(elem('ContactCopyButton'), 'noprint')} onClick={() => navigator.clipboard.writeText(contact.Text)} />
+                <If condition={!!contact.PrintText}>
+                  <a href=' ' className={'noscreen'}>{contact.PrintText}</a>
+                </If>
               </span>}
             </Map>
           </div>
@@ -256,7 +265,7 @@ export default class App extends React.Component<any, {
                 <Dates Start={project.Start} End={project.End} />
                 <span className={elem('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</span>
               </div>
-              <div className={elem('ProjectDescription')}>{project.Description}</div>
+              <div className={elem('ProjectDescription')}><TextWithLineWraps text={project.Description} /></div>
               <div className={cn(elem('ProjectImages'), 'noprint')}>
                 <Map items={project.Images}>
                   { (item) => <>
@@ -287,9 +296,9 @@ export default class App extends React.Component<any, {
           }
         </Map>
 
-        <div className={cn(elem('Footer'), 'noprint')}>
-          Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()}
-          <div>Icons made by <a href='#' title='feen'>feen</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+        <div className={elem('Footer')}>
+          Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()} {commit.shortHash.toUpperCase()}
+          <div className={'noprint'}>Icons made by feen from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </div>
       </div>
  
