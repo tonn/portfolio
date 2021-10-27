@@ -21,10 +21,17 @@
     margin: 1.5vw 0;
   }
 
+  &__UtilButtons {
+    @include flex(row);
+    font-family: $fontMono;
+  }
+
+  &__UtilButton {
+    @include Selectable;
+  }
+
   &__Intro {
-    display: grid;
     margin-top: $spacing;
-    // gap: 1vw;
     break-inside: avoid;
 
     > * {
@@ -34,56 +41,39 @@
     }
   }
 
-  &__UtilButtons {
-    @include flex(row);
-    font-family: $fontMono;
-
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  &__UtilButton {
-    @include Selectable;
-  }
-
   &__IntroTitle {
-    grid-column: 1;
-    grid-row: 2;
     margin-top: 0;
     line-height: 1;
   }
 
   &__IntroText {
-    grid-column: 1;
-    grid-row: 3;
+    hyphens: auto;
   }
 
   &__Contacts {
-    grid-column: 1;
-    grid-row: 4;
+    margin-top: $spacing;
+    break-inside: avoid;
     display: flex;
     flex-wrap: wrap;
-    break-inside: avoid;
   }
 
   &__Photo {
-    grid-column: 2;
-    grid-row: 2/4;
+    @include size(15vw);
 
-    width: 10vw;
-    height: 10vw;
+    float: right;
+    shape-outside: circle(50% at 50% 50%);
+
     transform: scaleX(-1);
-
     border-radius: 50%;
     border: 1px solid gray;
     background-color: lightseagreen;
 
     @media (orientation: portrait) {
-      width: 20vw;
-      height: 20vw;
+      @include size(40vw);
     }
 
     @media print {
+      @include size(35mm);
       background-color: white;
     }
   }

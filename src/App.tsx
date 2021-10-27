@@ -30,6 +30,8 @@ import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
  * 9) Find designer
  * 10) Fix pdf layout (hide it before)
  * 11) Grab screens/screencasts from https://debug.upgdev.ru/app/scriptDesigner/scripts
+ * 12) Add hyphens for russian
+ * 13) https://blog.risingstack.com/pdf-from-html-node-js-puppeteer/
  */
 
 interface ILanguageModel {
@@ -77,7 +79,7 @@ export default class App extends React.Component<any, {
   }
 
   componentDidMount() {
-    this.setLanguage('en');
+    this.setLanguage('ru');
   }
 
   private setLanguage(lang: Language) {
@@ -178,7 +180,7 @@ export default class App extends React.Component<any, {
     }
 
     return <>
-      <div className={block()}>
+      <div className={block()} lang={Language}>
         <div className={cn(elem('UtilButtons'), 'noprint')}>
           <Map items={LanguageModels}>
             {lang => 
@@ -190,6 +192,8 @@ export default class App extends React.Component<any, {
           <div className={elem('UtilButton')} onClick={() => window.print()}>print</div>
         </div>
         <div className={elem('Intro')}>
+          <img className={elem('Photo')} src={CV.Photo} alt='' />
+
           <h1 className={elem('IntroTitle')}>About Me</h1>
 
           <div className={elem('IntroText')} dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
@@ -206,8 +210,6 @@ export default class App extends React.Component<any, {
               </span>}
             </Map>
           </div>
-
-          <img className={elem('Photo')} src={CV.Photo} alt='' />
         </div>
         
         <h1>Techs</h1>
