@@ -7,12 +7,13 @@
   margin: 15mm 15mm 15mm 15mm;  
 } 
 
-
 .App {
   width: 100%;
+  height: 100%;
+
   font-family: $font;
   padding: 2.5vw 20vw;
-  // overflow: hidden auto;
+  overflow: hidden auto;
   color: $color;
   line-height: 1.5;
 
@@ -22,6 +23,8 @@
 
   @media print {
     padding: 0;
+    overflow: visible;
+    height: unset;
   }
 
   h1 {
