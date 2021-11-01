@@ -33,6 +33,8 @@ import URLParse from 'url-parse';
  * 11) Grab screens/screencasts from https://debug.upgdev.ru/app/scriptDesigner/scripts
  * 12) Add hyphens for russian
  * 13) https://blog.risingstack.com/pdf-from-html-node-js-puppeteer/
+ * 14) deploy to github pages
+ * 15) Add link to github in the top right corner
  */
 
 interface ILanguageModel {
