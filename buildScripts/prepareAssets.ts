@@ -71,7 +71,7 @@ async function OptimizeAssets$() {
             await imagemin([newFilePath], { destination: targetFolderPath, plugins: [imageminPngquant()], glob: false });
 
             const image = await Jimp.read(newFilePath);
-            await image.resize(Jimp.AUTO, 200).quality(80).writeAsync(thumbFilePath);
+            await image.resize(Jimp.AUTO, 200).background(0xFFFFFFFF).quality(80).writeAsync(thumbFilePath);
             await imagemin([thumbFilePath], { destination: targetFolderPath, plugins: [imageminMozjpeg()], glob: false });
 
             assets.push({ 
