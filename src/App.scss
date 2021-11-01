@@ -72,7 +72,7 @@
   }
 
   &__Photo {
-    @include size(15vw);
+    @include size(10vw);
 
     float: right;
     shape-outside: circle(50% at 50% 50%);
@@ -87,7 +87,7 @@
     }
 
     @media print {
-      @include size(35mm);
+      @include size(40mm);
       background-color: white;
     }
   }
