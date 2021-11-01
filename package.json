@@ -2,6 +2,7 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -57,7 +58,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run prepareAssets && npm run preparePdf && react-scripts build",
+    "build": "npm run prepareAssets && react-scripts build && npm run preparePdf",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "preparePdf": "npx ts-node --project tsconfig.node.json buildScripts/preparePdf.tsx",

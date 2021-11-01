@@ -10,7 +10,7 @@ import Jimp from 'jimp';
 import PromisePool from '@supercharge/promise-pool';
 import _ from 'lodash';
 import { normalizeName } from './helpers';
-import { prepareFonts } from './prepareFonts';
+import { initFontsFiles, prepareFonts } from './prepareFonts';
 import { UnicodeRanges } from './prepareFonts/UnicodeRanges';
 import { Font } from './prepareFonts/font';
 
@@ -40,6 +40,8 @@ async function OptimizeAssets$() {
     console.dir(items);
 
     fs.rmdirSync(assetsFolder, { recursive: true });
+
+    initFontsFiles(path.join(projectPath, 'public'), path.join(projectPath, 'src')); // generate all files
 
     await PromisePool.withConcurrency(12).for(items).process(async item => {
         const relativeFilePath = path.relative(assetsSourcesFolder, item);

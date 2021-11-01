@@ -36,6 +36,18 @@ function addHTMLPreload(font: Font) {
   fs.appendFileSync(htmlPreloadFilePath, `<link rel="prefetch" as="font" href="${font.runtimeFilePath}" />\n`);
 }
 
+export function initFontsFiles(metadataOutputFolderPath: string, scrOutputFolder: string) {
+  cssFilePath = path.join(metadataOutputFolderPath, cssFilePath);
+  htmlPreloadFilePath = path.join(metadataOutputFolderPath, htmlPreloadFilePath);
+  scssFilePath = path.join(scrOutputFolder, scssFilePath);
+
+  console.dir([cssFilePath, htmlPreloadFilePath, scssFilePath]);
+  [cssFilePath, htmlPreloadFilePath, scssFilePath].forEach(f => {
+    fs.existsSync(f) && fs.unlinkSync(f);
+    fs.appendFileSync(f, '');
+  });
+}
+
 export function prepareFonts(fonts: Font[], metadataOutputFolderPath: string, scrOutputFolder: string) {
   console.log('Start fonts preparing');
 
@@ -45,12 +57,7 @@ export function prepareFonts(fonts: Font[], metadataOutputFolderPath: string, sc
     execSync('py -3 -m venv env', { cwd: __dirname, stdio: 'inherit' });
     pythonEnvRun(`pip install -r ${__dirname}\\requirements.txt`, undefined, __dirname);
 
-    cssFilePath = path.join(metadataOutputFolderPath, cssFilePath);
-    htmlPreloadFilePath = path.join(metadataOutputFolderPath, htmlPreloadFilePath);
-    scssFilePath = path.join(scrOutputFolder, scssFilePath);
-
-    console.dir([cssFilePath, htmlPreloadFilePath, scssFilePath]);
-    [cssFilePath, htmlPreloadFilePath, scssFilePath].forEach(f => fs.existsSync(f) && fs.unlinkSync(f));
+    initFontsFiles(metadataOutputFolderPath, scrOutputFolder);
 
     initialized = true;
   }

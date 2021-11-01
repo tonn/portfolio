@@ -299,7 +299,7 @@ export default class App extends React.Component<any, {
         </Map>
 
         <div className={elem('Footer')}>
-          Anton Novikov &copy; Updated {new Date(commit.date).toLocaleString()} {commit.shortHash.toUpperCase()}
+          Anton Novikov &copy; Updated {new Date(commit.date).toUTCString()} {commit.shortHash.toUpperCase()}
           <div className={'noprint'}>Icons made by feen from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </div>
       </div>
