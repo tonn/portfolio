@@ -11,7 +11,7 @@ const rootFolder = process.cwd();
 
     for (const cv of CVs) {
         try {
-            await page.goto(`file://${path.resolve(rootFolder, 'build', 'index.html')}?lang=${cv.Language}`);
+            await page.goto(`file://${path.resolve(rootFolder, 'build', 'index.html')}?lang=${cv.Language}&grouping`);
             await page.pdf({ 
                 path: `${rootFolder}/build/AntonNovikovCV_${cv.Language}.pdf`, 
                 format: 'a4',

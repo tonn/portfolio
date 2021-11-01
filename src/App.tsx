@@ -90,6 +90,7 @@ export default class App extends React.Component<any, {
     const url = URLParse(window.location.toString(), true);
 
     this.setLanguage(url.query.lang === 'ru' ? 'ru' : 'en');
+    this.setState({ TechsGroup: 'grouping' in url.query ? 'on' : 'off' })
   }
 
   private setLanguage(lang: Language) {
