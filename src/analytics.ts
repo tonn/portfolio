@@ -17,11 +17,11 @@ export async function initGoogleAnalytics() {
   document.head.appendChild(gtagScript);
 };
 
-const dataLayer: unknown[][] = (window as any).dataLayer || [];
+const dataLayer: unknown[] = (window as any).dataLayer || [];
 (window as any).dataLayer = dataLayer;
 
 export function gtag(...args: unknown[]) {
-  dataLayer.push(args);
+  dataLayer.push(arguments);
 }
 
 gtag('js', new Date());
