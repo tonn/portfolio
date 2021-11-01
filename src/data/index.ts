@@ -79,7 +79,7 @@ const enCV: ICV = {
   },
   Projects: [AvgustProject, ClearDotProject, DriveNotProject, IDLProject, ISSCargoTrafficProject, LeanCRMConstructorProject, LeanCRMMenu, ReebokEventProject, StreetQuestProject],
   Contacts: [
-    { Label: 'Portfolio', PrintText: 'cv.novikov-pro.ru' },
+    { Label: 'Portfolio', PrintText: 'tonn.github.io/cv' },
     { Label: 'Mail', Text: 'tonn.post@gmail.com', Link: 'mailto:tonn.post@gmail.com' },
     { Label: 'Skype', Text: 'novikov_a_l', Link: 'skype:novikov_a_l' },
     { Label: 'Calendly', Text: 'arrange a call', Link: 'https://calendly.com/tonnv/30min', PrintText: 'https://calendly.com/tonnv/30min' },
