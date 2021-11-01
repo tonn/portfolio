@@ -15,6 +15,7 @@ import { If } from './helpers/If';
 import { Map } from './helpers/Map';
 import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 import URLParse from 'url-parse';
+import GithubCorner from 'react-github-corner';
 
 /**
  * TODO:
@@ -305,6 +306,8 @@ export default class App extends React.Component<any, {
       </div>
  
       { this.state.FullscreenGallery && <FullscreenGallery {...this.state.FullscreenGallery}/> }
+
+      <GithubCorner className={'noprint'} href="https://github.com/tonn/portfolio" size={50} direction='left' />
     </>;
   }
 }
