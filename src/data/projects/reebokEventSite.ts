@@ -5,7 +5,7 @@ export const ReebokEventProject: IProject = {
   Title: 'Reebok Event Site',
   Start: new Date(2016, 5),
   End: new Date(2016, 8),
-  PrimaryTechs: ['angularjs', 'javascript', 'scss/css', 'html'],
+  PrimaryTechs: ['angularjs', 'javascript', 'scss/css', 'html', 'git'],
   Description: '',
   Images: [{
     Filename: Assets.reebokEventSite.i_a_1,

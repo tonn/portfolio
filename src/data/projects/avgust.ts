@@ -4,12 +4,12 @@ import { Assets } from '../../assets.g';
 export const AvgustProject: IProject = {
   Title: 'Avgust Crop Protection',
   Start: new Date(2016, 6),
-  PrimaryTechs: ['javascript', 'html', 'scss/css', 'cordova', 'angularjs', 'ionic'],
+  PrimaryTechs: ['javascript', 'html', 'scss/css', 'cordova', 'angularjs', 'ionic', 'git'],
   SecondaryTechs: ['ios', 'android'],
   Description: '',
   Images: [{
-    Filename: Assets.avgust.i_a_logo,
-    Thumb: Assets.avgust.i_a_logo_thumb
+    Filename: Assets.avgust.i_a_avgust_5,
+    Thumb: Assets.avgust.i_a_avgust_5_thumb
   }, {
     Filename: Assets.avgust.i_a_avgust_1,
     Thumb: Assets.avgust.i_a_avgust_1_thumb
@@ -19,9 +19,6 @@ export const AvgustProject: IProject = {
   }, {
     Filename: Assets.avgust.i_a_avgust_3,
     Thumb: Assets.avgust.i_a_avgust_3_thumb
-  }, {
-    Filename: Assets.avgust.i_a_avgust_5,
-    Thumb: Assets.avgust.i_a_avgust_5_thumb
   }],
   Links: {
     GooglePlay: 'https://play.google.com/store/apps/details?id=com.avgust.avgustcropprotection',
