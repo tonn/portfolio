@@ -305,7 +305,7 @@ export default class App extends React.Component<any, {
  
       { this.state.FullscreenGallery && <FullscreenGallery {...this.state.FullscreenGallery}/> }
 
-      <GithubCorner className={'noprint'} href="https://github.com/tonn/portfolio" size={50} direction='left' />
+      <GithubCorner className={'noprint'} href="https://github.com/tonn/portfolio" size={50} direction='right' />
     </>;
   }
 }
