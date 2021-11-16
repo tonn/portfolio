@@ -1,5 +1,3 @@
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Interval, max } from 'date-fns';
 import _ from 'lodash';
 import React from 'react';
