@@ -59,7 +59,7 @@ const MonthYear = (date: Date) => `${date.getFullYear()}/${date.getMonth() + 1}`
 
 const Dates: React.FC<{ Start: Date, End?: Date }> = ({Start, End}) => <span className={elem('Dates')}>
 { End ? <>{MonthYear(Start)} - {MonthYear(End)}</> 
-      : <>In progress from {MonthYear(Start)}</>}  
+      : <>{MonthYear(Start)} - Present</>}  
 </span>;
 
 type TechsGroup = 'off' | 'on';
