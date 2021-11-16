@@ -1,0 +1,36 @@
+@import 'theme';
+@import 'shared';
+
+.Contacts {
+  $ContactCopyButtonClass: "#{&}__ContactCopyButton";
+
+  display: flex;
+  flex-wrap: wrap;
+
+  &__Contact {
+    margin-right: 1vw;
+    white-space: nowrap;
+
+    &:hover #{$ContactCopyButtonClass} {
+      opacity: 1;
+    }
+
+    > a {
+      color: $color !important;
+      font-weight: 600;
+      text-decoration-color: gray;
+    }
+
+    > * {
+      vertical-align: middle;
+    }
+  }
+
+  #{$ContactCopyButtonClass} {
+    display: inline;
+    opacity: 0;
+    cursor: pointer;
+    width: 14px;
+    transition: opacity .5s;
+  }
+}

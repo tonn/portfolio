@@ -16,6 +16,8 @@ import { Map } from './helpers/Map';
 import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 import URLParse from 'url-parse';
 import GithubCorner from 'react-github-corner';
+import { Contacts } from './Contacts';
+import { MAINTENANCE } from '.';
 
 /**
  * TODO:
@@ -192,113 +194,108 @@ export default class App extends React.Component<any, {
 
     return <>
       <div className={block()} lang={Language}>
-        <div className={cn(elem('UtilButtons'), 'noprint')}>
-          <Map items={LanguageModels}>
-            {lang => 
-              <div key={lang.Language} className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
-                {lang.Language},&nbsp;
-              </div>}
-          </Map>
-          <div className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</div>
-          <div className={elem('UtilButton')} onClick={() => window.print()}>print</div>
-        </div>
-        <div className={elem('Intro')}>
-          <img className={elem('Photo')} src={CV.Photo} alt='' />
+        <If condition={MAINTENANCE}>
+          Site is under maintenance.
+          <Contacts CV={CV} />
+        </If>
 
-          <h1 className={elem('IntroTitle')}>About Me</h1>
+        <If condition={!MAINTENANCE}>
+          <div className={cn(elem('UtilButtons'), 'noprint')}>
+            <Map items={LanguageModels}>
+              {lang => 
+                <div key={lang.Language} className={elem('UtilButton', Language === lang.Language && 'Selected')} onClick={() => this.setLanguage(lang.Language)}>
+                  {lang.Language},&nbsp;
+                </div>}
+            </Map>
+            <div className={elem('UtilButton')} onClick={() => this.downloadPdf()}>pdf,&nbsp;</div>
+            <div className={elem('UtilButton')} onClick={() => window.print()}>print</div>
+          </div>
 
-          <div className={elem('IntroText')} dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
+          <div className={elem('Intro')}>
+            <img className={elem('Photo')} src={CV.Photo} alt='' />
 
-          <div className={elem('Contacts')}>
-            <Map items={CV.Contacts}>
-              {contact => <span key={contact.Link} className={cn(elem('Contact'), !contact.Text && 'noscreen' )}>
-                <span className={elem('ContactLabel')}>{contact.Label}:&nbsp;</span>
-                <If condition={!!contact.Text}>
-                  <a className={cn(!!contact.PrintText && 'noprint')} href={contact.Link} target='blank'>{contact.Text}</a>&nbsp;
-                  <FontAwesomeIcon icon={faCopy} className={cn(elem('ContactCopyButton'), 'noprint')} onClick={() => navigator.clipboard.writeText(contact.Text || '')}/>
-                </If>
-                <If condition={!!contact.PrintText}>
-                  <a href=' ' className={'noscreen'}>{contact.PrintText}</a>
-                </If>
-              </span>}
+            <h1 className={elem('IntroTitle')}>About Me</h1>
+
+            <div className={elem('IntroText')} dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
+
+            <Contacts className={elem('Contacts')} CV={CV} />
+          </div>
+
+          <h1>Techs</h1>
+          <div className={cn(elem('TechsOptions'), 'noprint')}>
+            Grouping:&nbsp;
+            <Map items={TechGroupVariants}>
+              {(item, index) => <>
+                <If condition={index !== 0}>,&nbsp;</If>
+                <div className={elem('TechsOptionsItem', TechsGroup === item && 'Selected')} onClick={() => this.setTechsGroup(item)}>{item}</div></>}
+            </Map>
+
+            &nbsp;Sort by:&nbsp;
+            <Map items={TechSortVariants}>
+              {(item, index) => <>
+                <If condition={index !== 0}>,&nbsp;</If>
+                <div className={elem('TechsOptionsItem', TechsSort === item && 'Selected')} onClick={() => this.setTechsSort(item)}>{item}</div>
+              </>}
             </Map>
           </div>
-        </div>
-        
-        <h1>Techs</h1>
-        <div className={cn(elem('TechsOptions'), 'noprint')}>
-          Grouping:&nbsp;
-          <Map items={TechGroupVariants}>
-            {(item, index) => <>
-              <If condition={index !== 0}>,&nbsp;</If>
-              <div className={elem('TechsOptionsItem', TechsGroup === item && 'Selected')} onClick={() => this.setTechsGroup(item)}>{item}</div></>}
+          <div className={elem('Techs', TechsGroup === 'off' && 'NoGrouping')}>
+            <Map items={Object.keys(TechsGroups)}>
+              { group => <>
+                <If condition={!!group}><div className={elem('TechsGroupTitle')}>{group}:</div></If>
+                <div className={elem('TechsGroupItems')}>
+                  <Map items={TechsGroups[group]}>
+                    { (tech, index) => 
+                      <span key={tech.name} className={elem('TechTag')}>
+                        <If condition={index !== 0}><span className={elem('TechComma')}>, </span></If>
+                        <span className={elem('TechName')}>{tech.name}</span>
+                        <span className={elem('TechYear')}>&nbsp;{Math.round(tech.experienceYears * 10) / 10}&nbsp;years</span>                    
+                      </span> }
+                  </Map> 
+                </div>
+              </>}
+            </Map>
+          </div>
+
+          <h1>Projects</h1>
+          <Map items={_.orderBy(CV.Projects, p => p.Start, 'desc')}>
+            { project => 
+              <div key={project.Title} className={elem('Project')}>
+                <div> <span className={elem('ProjectTitle')}>{project.Title}</span> </div>
+                <div className={elem('ProjectSummary')}>
+                  <Dates Start={project.Start} End={project.End} />
+                  <span className={elem('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</span>
+                </div>
+                <div className={elem('ProjectDescription')}><TextWithLineWraps text={project.Description} /></div>
+                <div className={cn(elem('ProjectImages'), 'noprint')}>
+                  <Map items={project.Images}>
+                    { (item) => <>
+                      <img key={item.Thumb} className={elem('ProjectImage')} src={item.Thumb} alt='' 
+                          onClick={() => this.setState({ FullscreenGallery: { 
+                            Images: project.Images,
+                            OpenAt: project.Images.indexOf(item),
+                            OnClose: () => this.setState({ FullscreenGallery: undefined })
+                          } })} />
+                    </> }
+                  </Map>
+                </div>
+                <Separator />
+              </div> }
           </Map>
 
-          &nbsp;Sort by:&nbsp;
-          <Map items={TechSortVariants}>
-            {(item, index) => <>
-              <If condition={index !== 0}>,&nbsp;</If>
-              <div className={elem('TechsOptionsItem', TechsSort === item && 'Selected')} onClick={() => this.setTechsSort(item)}>{item}</div>
-            </>}
+          <h1>Career</h1>
+          <Map items={_.orderBy(Object.values(CV.Career), i => i.Start, 'desc')}>
+            { item => 
+              <div key={item.Label}>
+                <Dates Start={item.Start} End={item.End} />
+                <span>&nbsp;{item.Label}&nbsp;</span>
+                <If condition={!!item.Link}>
+                  <a className={'noprint'} href={item.Link}>{item.LinkLabel || 'Organization site'}</a>
+                  <a className={'noscreen'} href={item.Link}>{item.Link}</a>
+                </If>
+              </div> 
+            }
           </Map>
-        </div>
-        <div className={elem('Techs', TechsGroup === 'off' && 'NoGrouping')}>
-          <Map items={Object.keys(TechsGroups)}>
-            { group => <>
-              <If condition={!!group}><div className={elem('TechsGroupTitle')}>{group}:</div></If>
-              <div className={elem('TechsGroupItems')}>
-                <Map items={TechsGroups[group]}>
-                  { (tech, index) => 
-                    <span key={tech.name} className={elem('TechTag')}>
-                      <If condition={index !== 0}><span className={elem('TechComma')}>, </span></If>
-                      <span className={elem('TechName')}>{tech.name}</span>
-                      <span className={elem('TechYear')}>&nbsp;{Math.round(tech.experienceYears * 10) / 10}&nbsp;years</span>                    
-                    </span> }
-                </Map> 
-              </div>
-            </>}
-          </Map>
-        </div>
-
-        <h1>Projects</h1>
-        <Map items={_.orderBy(CV.Projects, p => p.Start, 'desc')}>
-          { project => 
-            <div key={project.Title} className={elem('Project')}>
-              <div> <span className={elem('ProjectTitle')}>{project.Title}</span> </div>
-              <div className={elem('ProjectSummary')}>
-                <Dates Start={project.Start} End={project.End} />
-                <span className={elem('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</span>
-              </div>
-              <div className={elem('ProjectDescription')}><TextWithLineWraps text={project.Description} /></div>
-              <div className={cn(elem('ProjectImages'), 'noprint')}>
-                <Map items={project.Images}>
-                  { (item) => <>
-                    <img key={item.Thumb} className={elem('ProjectImage')} src={item.Thumb} alt='' 
-                        onClick={() => this.setState({ FullscreenGallery: { 
-                          Images: project.Images,
-                          OpenAt: project.Images.indexOf(item),
-                          OnClose: () => this.setState({ FullscreenGallery: undefined })
-                        } })} />
-                  </> }
-                </Map>
-              </div>
-              <Separator />
-            </div> }
-        </Map>
-
-        <h1>Career</h1>
-        <Map items={_.orderBy(Object.values(CV.Career), i => i.Start, 'desc')}>
-          { item => 
-            <div key={item.Label}>
-              <Dates Start={item.Start} End={item.End} />
-              <span>&nbsp;{item.Label}&nbsp;</span>
-              <If condition={!!item.Link}>
-                <a className={'noprint'} href={item.Link}>{item.LinkLabel || 'Organization site'}</a>
-                <a className={'noscreen'} href={item.Link}>{item.Link}</a>
-              </If>
-            </div> 
-          }
-        </Map>
+        </If>
 
         <div className={elem('Footer')}>
           Anton Novikov &copy; Updated {new Date(commit.date).toUTCString()} {commit.shortHash.toUpperCase()}

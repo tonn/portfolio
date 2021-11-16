@@ -6,6 +6,7 @@ import App from './App';
 import { initGoogleAnalytics } from './analytics';
 
 export const DEV = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+export const MAINTENANCE = true;
 
 if (!DEV) {
   initGoogleAnalytics();
