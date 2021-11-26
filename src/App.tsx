@@ -36,6 +36,8 @@ import { MAINTENANCE } from '.';
  * 13) https://blog.risingstack.com/pdf-from-html-node-js-puppeteer/
  * 14) deploy to github pages
  * 15) Add link to github in the top right corner
+ * 16) Move photo to the bottom of site
+ * 17) Hide long lists (like project photos and contacts) under 'more...' button. Don't forget roll out it on printing.
  */
 
 interface ILanguageModel {
@@ -68,7 +70,7 @@ const TechSortVariants: TechsSort[] = ['actuality', 'name'];
 interface ITech { name: string, experienceYears: number };
 
 function TextWithLineWraps({ text }: { text: string }) {
-  return <>{text.split('\n').map(line => <>{line}<br/></>)}</>;
+  return <>{text.split('\n').map(line => <React.Fragment key={line}>{line}<br/></React.Fragment>)}</>;
 }
 
 export default class App extends React.Component<any, {
@@ -223,22 +225,23 @@ export default class App extends React.Component<any, {
           <div className={cn(elem('TechsOptions'), 'noprint')}>
             Grouping:&nbsp;
             <Map items={TechGroupVariants}>
-              {(item, index) => <>
+              {(item, index) => <React.Fragment key={index}>
                 <If condition={index !== 0}>,&nbsp;</If>
-                <div className={elem('TechsOptionsItem', TechsGroup === item && 'Selected')} onClick={() => this.setTechsGroup(item)}>{item}</div></>}
+                <div className={elem('TechsOptionsItem', TechsGroup === item && 'Selected')} onClick={() => this.setTechsGroup(item)}>{item}</div>
+              </React.Fragment>}
             </Map>
 
             &nbsp;Sort by:&nbsp;
             <Map items={TechSortVariants}>
-              {(item, index) => <>
+              {(item, index) => <React.Fragment key={index}>
                 <If condition={index !== 0}>,&nbsp;</If>
                 <div className={elem('TechsOptionsItem', TechsSort === item && 'Selected')} onClick={() => this.setTechsSort(item)}>{item}</div>
-              </>}
+              </React.Fragment>}
             </Map>
           </div>
           <div className={elem('Techs', TechsGroup === 'off' && 'NoGrouping')}>
             <Map items={Object.keys(TechsGroups)}>
-              { group => <>
+              { (group, index) => <React.Fragment key={index}>
                 <If condition={!!group}><div className={elem('TechsGroupTitle')}>{group}:</div></If>
                 <div className={elem('TechsGroupItems')}>
                   <Map items={TechsGroups[group]}>
@@ -250,7 +253,7 @@ export default class App extends React.Component<any, {
                       </span> }
                   </Map> 
                 </div>
-              </>}
+              </React.Fragment>}
             </Map>
           </div>
 
@@ -267,14 +270,13 @@ export default class App extends React.Component<any, {
                 <div className={elem('ProjectDescription')}><TextWithLineWraps text={project.Description} /></div>
                 <div className={cn(elem('ProjectImages'), 'noprint')}>
                   <Map items={project.Images}>
-                    { (item) => <>
+                    { (item, index) => 
                       <img key={item.Thumb} className={elem('ProjectImage')} src={item.Thumb} alt='' 
-                          onClick={() => this.setState({ FullscreenGallery: { 
-                            Images: project.Images,
-                            OpenAt: project.Images.indexOf(item),
-                            OnClose: () => this.setState({ FullscreenGallery: undefined })
-                          } })} />
-                    </> }
+                        onClick={() => this.setState({ FullscreenGallery: { 
+                          Images: project.Images,
+                          OpenAt: project.Images.indexOf(item),
+                          OnClose: () => this.setState({ FullscreenGallery: undefined })
+                        } })} /> }
                   </Map>
                 </div>
                 <Separator />

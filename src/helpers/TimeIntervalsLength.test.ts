@@ -29,7 +29,7 @@ describe('Calculate time length of array of time intervals', () => {
     //   intervals: [{"start":"2016-06-30T20:00:00.000Z","end":"2021-10-15T08:19:13.320Z"},{"start":"2017-06-30T20:00:00.000Z","end":"2017-09-30T20:00:00.000Z"},{"start":"2016-11-30T20:00:00.000Z","end":"2017-09-30T20:00:00.000Z"},{"start":"2020-03-31T20:00:00.000Z","end":"2021-10-15T08:19:13.320Z"},{"start":"2017-03-31T20:00:00.000Z","end":"2021-10-15T08:19:13.320Z"},{"start":"2016-11-30T20:00:00.000Z","end":"2016-11-30T20:00:00.000Z"},{"start":"2016-01-31T20:00:00.000Z","end":"2016-05-31T20:00:00.000Z"}]
     //     .map(i => ({ start: new Date(i.start), end: new Date(i.end) })),
     //   expected: 0}
-  ])('%s', ({ intervals, expected }) => {
+  ])('%p', ({ intervals, expected }) => {
     expect(Math.round(TimeIntervalsLength(intervals))).toBe(expected);
   });
 });

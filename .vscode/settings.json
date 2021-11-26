@@ -32,5 +32,6 @@
         "zopfli"
     ],
     "jestrunner.jestCommand": "npx react-scripts test",
-    "svg.preview.background": "custom"
+    "svg.preview.background": "custom",
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }
