@@ -14,7 +14,7 @@ import { Map } from './helpers/Map';
 import { TimeIntervalsLength } from './helpers/TimeIntervalsLength';
 import URLParse from 'url-parse';
 import GithubCorner from 'react-github-corner';
-import { Contacts } from './Contacts';
+import { Links } from './Links';
 import { MAINTENANCE } from '.';
 
 /**
@@ -194,7 +194,7 @@ export default class App extends React.Component<any, {
       <div className={block()} lang={Language}>
         <If condition={MAINTENANCE}>
           Site is under maintenance.
-          <Contacts CV={CV} />
+          <Links links={CV.Contacts} />
         </If>
 
         <If condition={!MAINTENANCE}>
@@ -216,7 +216,7 @@ export default class App extends React.Component<any, {
 
             <div className={elem('IntroText')} dangerouslySetInnerHTML={{ __html: CV.Introduction || '' }}></div>
 
-            <Contacts className={elem('Contacts')} CV={CV} />
+            <Links className={elem('Contacts')} links={CV.Contacts} />
           </div>
 
           <h1>Techs</h1>
@@ -263,6 +263,7 @@ export default class App extends React.Component<any, {
                   <Dates Start={project.Start} End={project.End} />
                   <span className={elem('ProjectTechs')}>{project.PrimaryTechs.join(', ')}</span>
                 </div>
+                <If condition={!!project.Links}><Links links={project.Links!} /></If>
                 <div className={elem('ProjectDescription')}><TextWithLineWraps text={project.Description} /></div>
                 <div className={cn(elem('ProjectImages'), 'noprint')}>
                   <Map items={project.Images}>

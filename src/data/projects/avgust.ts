@@ -1,5 +1,6 @@
 import { IProject } from '..';
 import { Assets } from '../../assets.g';
+import { faGooglePlay, faAppStoreIos } from '@fortawesome/free-brands-svg-icons';
 
 export const AvgustProject: IProject = {
   Title: 'Avgust Crop Protection',
@@ -20,10 +21,11 @@ export const AvgustProject: IProject = {
     Filename: Assets.avgust.i_a_avgust_3,
     Thumb: Assets.avgust.i_a_avgust_3_thumb
   }],
-  Links: {
-    GooglePlay: 'https://play.google.com/store/apps/details?id=com.avgust.avgustcropprotection',
-    AppStore: 'https://itunes.apple.com/us/app/sredstva-zasity-rastenij-avgust/id1142238675'
-  }
+  Links: [
+    { Text: 'Android', Link: 'https://play.google.com/store/apps/details?id=com.avgust.avgustcropprotection', Icon: faGooglePlay },
+    { Text: 'iOS', Link: 'https://itunes.apple.com/us/app/sredstva-zasity-rastenij-avgust/id1142238675', Icon: faAppStoreIos },
+    { Text: 'Home page', Link: 'https://www.aft.ru/portfolio/mobilnoe-prilozhenie-kompanii-avgust/' }
+  ]
 }
 
 export const AvgustProjectRu: IProject = {
